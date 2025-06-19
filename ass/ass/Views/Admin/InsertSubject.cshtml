@@ -1,0 +1,39 @@
+﻿@model SubjectVM
+@{
+    ViewBag.Title = "Admin | Insert Subject";
+}
+
+<div class="container">
+    <div class="table-title">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2>Insert Subject</h2>
+            </div>
+        </div>
+    </div>
+        <form asp-action="InsertSubject" method="post">
+
+            <div class="form-group mb-3">
+                <label asp-for="SubjectId" class="form-label">Subject ID</label>
+                <input asp-for="SubjectId" class="form-control" readonly />
+                <span asp-validation-for="SubjectId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="SubjectName" class="form-label">Subject Name</label>
+                <input asp-for="SubjectName" class="form-control" />
+                <span asp-validation-for="SubjectName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+            <label asp-for="SubjectDescription" class="form-label">Subject Description</label>
+                <textarea asp-for="SubjectDescription" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="SubjectDescription" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <a asp-action="ViewSubject" class="btn btn-secondary">Back to List</a>
+                <button type="submit" class="btn btn-primary">Create Subject</button>
+            </div>
+        </form>
+    </div>

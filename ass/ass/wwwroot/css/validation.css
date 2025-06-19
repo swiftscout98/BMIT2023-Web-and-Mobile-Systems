@@ -1,0 +1,176 @@
+﻿/* Form container styling */
+.container {
+    max-width: 800px;
+    margin: 2rem auto;
+}
+
+/* Form group styling */
+.form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+/* Label styling */
+.form-label {
+    font-weight: 500;
+    color: #344767;
+    margin-bottom: 0.5rem;
+}
+
+/* Input styling */
+.form-control, .form-select {
+    border: 1px solid #e9ecef;
+    transition: all 0.2s ease;
+}
+
+    .form-control:focus, .form-select:focus {
+        border-color: #3b71ca;
+        box-shadow: 0 0 0 0.25rem rgba(59, 113, 202, 0.1);
+    }
+
+/* Error message styling */
+.validation-message {
+    display: none;
+    font-size: 0.85rem;
+    padding: 0.4rem 0;
+    color: #dc3545;
+    animation: fadeInUp 0.3s ease;
+}
+
+    .validation-message:not(:empty) {
+        display: block;
+    }
+
+/* Invalid input styling */
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: #dc3545;
+    padding-right: calc(1.5em + 0.75rem);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+/* Password requirements styling */
+#passwordRequirements {
+    margin-top: 0.75rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+}
+
+    #passwordRequirements ul {
+        margin: 0.5rem 0 0 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    #passwordRequirements li {
+        display: flex;
+        align-items: center;
+        color: #6c757d;
+        margin-bottom: 0.3rem;
+        font-size: 0.85rem;
+    }
+
+        #passwordRequirements li::before {
+            content: "×";
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            margin-right: 0.5rem;
+            font-size: 1rem;
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        #passwordRequirements li.valid {
+            color: #198754;
+        }
+
+            #passwordRequirements li.valid::before {
+                content: "✓";
+                color: #198754;
+            }
+
+/* Gender radio buttons */
+.form-check-inline {
+    margin-right: 1.5rem;
+}
+
+.form-check-input {
+    width: 1.1em;
+    height: 1.1em;
+    margin-top: 0.2em;
+    cursor: pointer;
+}
+
+.form-check-label {
+    cursor: pointer;
+}
+
+/* File upload styling */
+.upload {
+    position: relative;
+}
+
+    .upload img {
+        margin-top: 1rem;
+        border-radius: 8px;
+    }
+
+/* Password toggle button */
+#togglePassword {
+    border-color: #e9ecef;
+}
+
+    #togglePassword:hover {
+        background-color: #f8f9fa;
+    }
+
+/* Submit and reset buttons */
+.btn-primary {
+    background-color: #3b71ca;
+    border-color: #3b71ca;
+    padding: 0.6rem 1.5rem;
+}
+
+    .btn-primary:hover {
+        background-color: #386bc0;
+        border-color: #386bc0;
+    }
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    padding: 0.6rem 1.5rem;
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Validation summary */
+.validation-summary {
+    display: none;
+    margin-bottom: 1.5rem;
+}
+
+.validation-summary.show {
+    display: block;
+    animation: fadeInUp 0.3s ease;
+}
+

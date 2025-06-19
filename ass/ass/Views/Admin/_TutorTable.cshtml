@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Tutor>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th onclick="sortData('id')">
+                Tutor ID
+                @if (ViewBag.Sort == "id")
+                {
+                    <span class="@(ViewBag.Dir == "asc" ? "asc" : "desc")"></span>
+                }
+            </th>
+            <th onclick="sortData('name')">
+                Tutor Name
+                @if (ViewBag.Sort == "name")
+                {
+                    <span class="@(ViewBag.Dir == "asc" ? "asc" : "desc")"></span>
+                }
+            </th>
+            <th onclick="sortData('email')">
+                Tutor Email
+                @if (ViewBag.Sort == "email")
+                {
+                    <span class="@(ViewBag.Dir == "asc" ? "asc" : "desc")"></span>
+                }
+            </th>
+            <th onclick="sortData('phone')">
+                Tutor Phone
+                @if (ViewBag.Sort == "phone")
+                {
+                    <span class="@(ViewBag.Dir == "asc" ? "asc" : "desc")"></span>
+                }
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tutor in Model)
+        {
+            <tr>
+                <td>@tutor.TutorId</td>
+                <td>@tutor.TutorName</td>
+                <td>@tutor.TutorEmail</td>
+                <td>@tutor.TutorPhone</td>
+                <td>
+                    <a href="@Url.Action("DetailTutor", "Admin", new { id = tutor.TutorId })" class="view">
+                        <i class="material-icons">visibility</i>
+                    </a>
+                    <a href="@Url.Action("EditTutor", "Admin", new { id = tutor.TutorId })" class="edit">
+                        <i class="material-icons">edit</i>
+                    </a>
+                    <a href="javascript:void(0)" onclick="deleteTutor('@tutor.TutorId', '@tutor.TutorName')" class="delete">
+                        <i class="material-icons">delete</i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="clearfix">
+    <div class="hint-text">
+        Showing @Model.Count() Out Of @ViewBag.TotalItems Entries
+    </div>
+    <ul class="pagination">
+        <!-- First Button -->
+        <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+            <a href="javascript:void(0)" onclick="@(ViewBag.CurrentPage > 1 ? "loadData(1)" : "return false;")" class="page-link">First</a>
+        </li>
+
+        <!-- Previous Button -->
+        <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+            <a href="javascript:void(0)" onclick="@(ViewBag.CurrentPage > 1 ? $"loadData({ViewBag.CurrentPage - 1})" : "return false;")" class="page-link">Previous</a>
+        </li>
+
+        <!-- Page Numbers -->
+        @for (var i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                <a href="javascript:void(0)" onclick="loadData(@i)" class="page-link">@i</a>
+            </li>
+        }
+
+        <!-- Next Button -->
+        <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+            <a href="javascript:void(0)" onclick="@(ViewBag.CurrentPage < ViewBag.TotalPages ? $"loadData({ViewBag.CurrentPage + 1})" : "return false;")" class="page-link">Next</a>
+        </li>
+
+        <!-- Last Button -->
+        <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+            <a href="javascript:void(0)" onclick="@(ViewBag.CurrentPage < ViewBag.TotalPages ? $"loadData({ViewBag.TotalPages})" : "return false;")" class="page-link">Last</a>
+        </li>
+    </ul>
+</div>

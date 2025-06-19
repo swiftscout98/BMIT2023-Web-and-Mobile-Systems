@@ -1,0 +1,43 @@
+﻿@model List<AttendanceDetailsViewModel>
+
+@{
+    Layout = "_StudentLayout";
+    ViewBag.Title = "Attendance Details";
+}
+
+<div class="summary">
+    <p><strong>Attendance Summary:</strong> @ViewBag.AttendedSchedules / @ViewBag.TotalSchedules</p>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Class Name</th>
+            <th>Date</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="5">No attendance records found.</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var record in Model)
+            {
+                <tr>
+                    <td>@record.ClassName</td>
+                    <td>@record.Date.ToString("yyyy-MM-dd")</td>
+                    <td>@record.StartTime</td>
+                    <td>@record.EndTime</td>
+                    <td>@record.Status</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

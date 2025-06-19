@@ -1,0 +1,115 @@
+﻿@model IEnumerable<Schedule>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th onclick="sortData('date')">
+                Date
+                @if (ViewBag.Sort == "date")
+                {
+                    <span class="@(ViewBag.Dir == "asc" ? "asc" : "desc")"></span>
+                }
+            </th>
+            <th onclick="sortData('starttime')">
+                Start Time
+                @if (ViewBag.Sort == "starttime")
+                {
+                    <span class="@(ViewBag.Dir == "asc" ? "asc" : "desc")"></span>
+                }
+            </th>
+            <th onclick="sortData('endtime')">
+                End Time
+                @if (ViewBag.Sort == "endtime")
+                {
+                    <span class="@(ViewBag.Dir == "asc" ? "asc" : "desc")"></span>
+                }
+            </th>
+            <th onclick="sortData('Class')">
+                Class
+                @if (ViewBag.Sort == "Class")
+                {
+                    <span class="@(ViewBag.Dir == "asc" ? "asc" : "desc")"></span>
+                }
+            </th>
+            <th onclick="sortData('Subjects')">
+                Subjects
+                @if (ViewBag.Sort == "Subjects")
+                {
+                    <span class="@(ViewBag.Dir == "asc" ? "asc" : "desc")"></span>
+                }
+            </th>
+            <th onclick="sortData('Tutors')">
+                Tutors
+                @if (ViewBag.Sort == "Tutors")
+                {
+                    <span class="@(ViewBag.Dir == "asc" ? "asc" : "desc")"></span>
+                }
+            </th>
+            <th>Attendance Code</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var schedule in Model)
+        {
+            <tr>
+                <td>@schedule.Date.ToString("dd/MM/yyyy")</td>
+                <td>@DateTime.Today.Add(schedule.StartTime).ToString("hh:mm tt")</td>
+                <td>@DateTime.Today.Add(schedule.EndTime).ToString("hh:mm tt")</td>
+                <td>@schedule.Class.ClassName</td>
+                <td>
+                    @string.Join(", ", schedule.Subjects.Select(s => s.SubjectName))
+                </td>
+                <td>
+                    @string.Join(", ", schedule.Subjects.SelectMany(s => s.Tutors).Select(t => t.TutorName).Distinct())
+                </td>
+                <td>
+                    @schedule.AttendanceCode
+                </td>
+                <td>
+                    <a href="@Url.Action("EditSchedule", new { id = schedule.ScheduleId })" class="edit">
+                        <i class="material-icons">edit</i>
+                    </a>
+                    <a href="javascript:void(0)" onclick="deleteSchedule('@schedule.ScheduleId')" class="delete">
+                        <i class="material-icons">delete</i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="clearfix">
+    <div class="hint-text">
+        Showing @Model.Count() Out Of @ViewBag.TotalItems Entries
+    </div>
+    <ul class="pagination">
+        <!-- First Button -->
+        <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+            <a href="javascript:void(0)" onclick="@(ViewBag.CurrentPage > 1 ? "loadData(1)" : "return false;")" class="page-link">First</a>
+        </li>
+
+        <!-- Previous Button -->
+        <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+            <a href="javascript:void(0)" onclick="@(ViewBag.CurrentPage > 1 ? $"loadData({ViewBag.CurrentPage - 1})" : "return false;")" class="page-link">Previous</a>
+        </li>
+
+        <!-- Page Numbers -->
+        @for (var i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                <a href="javascript:void(0)" onclick="loadData(@i)" class="page-link">@i</a>
+            </li>
+        }
+
+        <!-- Next Button -->
+        <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+            <a href="javascript:void(0)" onclick="@(ViewBag.CurrentPage < ViewBag.TotalPages ? $"loadData({ViewBag.CurrentPage + 1})" : "return false;")" class="page-link">Next</a>
+        </li>
+
+        <!-- Last Button -->
+        <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+            <a href="javascript:void(0)" onclick="@(ViewBag.CurrentPage < ViewBag.TotalPages ? $"loadData({ViewBag.TotalPages})" : "return false;")" class="page-link">Last</a>
+        </li>
+    </ul>
+</div>

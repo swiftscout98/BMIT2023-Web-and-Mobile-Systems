@@ -1,0 +1,259 @@
+﻿@model IEnumerable<Student>
+
+@{
+    Layout = "_StudentLayout";
+    ViewBag.Title = "Welcome, Student!";
+}
+
+<p></p>
+
+<div class="slider-container">
+    <div class="slider">
+        <img src="/images/A1.png" alt="Image 1" class="slider-image">
+        <img src="/images/A2.png" alt="Image 2" class="slider-image">
+        <img src="/images/A3.png" alt="Image 3" class="slider-image">
+    </div>
+    <button class="prev-btn">&lt;</button>
+    <button class="next-btn">&gt;</button>
+</div>
+
+<div class="welcome-message">
+    <h1>Welcome to Our Tuition Center!</h1>
+    <p>We are dedicated to helping students achieve their academic goals. Our experienced tutors provide personalized lessons in various subjects to ensure your success.</p>
+</div>
+
+<div class="featured-courses">
+    <h2>Featured Courses</h2>
+    <div class="course-list">
+        <div class="course-item">
+            <h3>Mathematics</h3>
+            <p>Master the fundamentals and advanced concepts of mathematics with our expert tutors.</p>
+        </div>
+        <div class="course-item">
+            <h3>Science</h3>
+            <p>Explore the wonders of science through interactive and engaging lessons.</p>
+        </div>
+        <div class="course-item">
+            <h3>English</h3>
+            <p>Improve your language skills and excel in reading, writing, and communication.</p>
+        </div>
+    </div>
+</div>
+
+<div class="testimonials">
+    <h2>What Our Students Say</h2>
+    <div class="testimonial-list">
+        <div class="testimonial-item">
+            <p>"The tutors are very knowledgeable and supportive. My grades have improved significantly!"</p>
+            <p>- John Doe</p>
+        </div>
+        <div class="testimonial-item">
+            <p>"I love the personalized attention I get. The lessons are tailored to my needs."</p>
+            <p>- Jane Smith</p>
+        </div>
+        <div class="testimonial-item">
+            <p>"The tutors are incredibly talented at teaching! Now my President List is secured for each semester."</p>
+            <p>- Cho Choong Kit</p>
+        </div>
+        <div class="testimonial-item">
+            <p>"Everytime I learn at college, I doze off but here. Damn, its a different story."</p>
+            <p>- Chan Shao Heng</p>
+        </div>
+    </div>
+</div>
+
+<div class="campus-location">
+    <h2>Our Campus Location</h2>
+    <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3983.7371225074246!2d101.72742147471447!3d3.216843996991303!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc3843bfb6a031%3A0x2dc5e067aae3ab84!2sTunku%20Abdul%20Rahman%20University%20of%20Management%20and%20Technology%20(TAR%20UMT)%20KL%20Main%20Campus!5e0!3m2!1sen!2smy!4v1703665175118!5m2!1sen!2smy"
+                width="100%"
+                height="400"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+</div>
+<style>
+    /* Slider Container */
+    .slider-container {
+        position: relative;
+        width: 80%; /* Adjust width as needed */
+        max-width: 800px; /* Optional max width */
+        margin: 20px auto; /* Center the slider */
+        overflow: hidden;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Slider */
+    .slider {
+        display: flex;
+        transition: transform 0.5s ease;
+    }
+
+    /* Slider Images */
+    .slider-image {
+        width: 100%;
+        flex-shrink: 0;
+    }
+
+    /* Navigation Buttons */
+    button.prev-btn,
+    button.next-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        padding: 10px;
+        font-size: 20px;
+        cursor: pointer;
+        z-index: 1000;
+        transition: background-color 0.3s;
+    }
+
+        button.prev-btn:hover,
+        button.next-btn:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+    button.prev-btn {
+        left: 10px;
+    }
+
+    button.next-btn {
+        right: 10px;
+    }
+
+    .welcome-message {
+        text-align: center;
+        margin: 40px 0;
+    }
+
+    .featured-courses {
+        margin: 40px 0;
+    }
+
+    .course-list {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
+    .course-item {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        width: 30%;
+        margin: 10px 0;
+        text-align: center;
+    }
+
+    .testimonials {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    .testimonial-list {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
+    .testimonial-item {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        width: 45%;
+        margin: 10px 0;
+    }
+
+    .call-to-action {
+        text-align: center;
+        margin: 40px 0;
+    }
+
+    .cta-button {
+        background-color: #007bff;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+    }
+
+    .cta-button:hover {
+        background-color: #0056b3;
+    }
+
+    .campus-location {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    .map-container {
+        width: 80%;
+        max-width: 1000px;
+        margin: 20px auto;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+@section foot {
+    <script>
+        const slider = document.querySelector('.slider');
+        const images = document.querySelectorAll('.slider-image');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        let currentIndex = 0;
+
+        function updateSlider() {
+            const width = slider.clientWidth;
+            slider.style.transform = `translateX(-${currentIndex * width}px)`;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateSlider();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateSlider();
+        });
+
+        // Auto-slide functionality (optional)
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateSlider();
+        }, 5000); // Change image every 5 seconds
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const testimonialItems = document.querySelectorAll('.testimonial-item');
+            let currentTestimonial = 0;
+
+            function showTestimonial(index) {
+                testimonialItems.forEach((item, i) => {
+                    item.style.display = i === index ? 'block' : 'none';
+                });
+            }
+
+            setInterval(() => {
+                currentTestimonial = (currentTestimonial + 1) % testimonialItems.length;
+                showTestimonial(currentTestimonial);
+            }, 5000); // Change testimonial every 5 seconds
+
+            showTestimonial(currentTestimonial);
+        });
+    </script>
+}

@@ -1,0 +1,231 @@
+﻿@model LoginVM
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Login - Student Attendance System</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/AdminBootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/AdminCustom.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #353b48;
+        }
+
+        .login-box {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+            .login-box h2 {
+                color: #333;
+                text-align: center;
+                margin-bottom: 30px;
+                font-weight: 600;
+            }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group-text {
+            background: transparent;
+        }
+
+        .login-btn {
+            border: 2px #4c7cf3 solid;
+            background: #4c7cf3;
+            color: #fff;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            font-weight: 500;
+            margin-top: 20px;
+            transition: .5s ease;
+        }
+
+            .login-btn:hover {
+                border: 2px #4c7cf3 solid;
+                color: #3867e0;
+                background: #fff;
+            }
+
+        .material-icons {
+            font-size: 20px;
+            color: #666;
+        }
+
+        .forgot-links {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+
+            .forgot-links a {
+                text-decoration: none;
+                color: #4c7cf3;
+            }
+
+                .forgot-links a:hover {
+                    color: #3867e0;
+                }
+
+    </style>
+</head>
+<body>
+    <audio id="logoutSound" preload="auto">
+        <source src="/sounds/logout.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="adminSound" preload="auto">
+        <source src="/sounds/admin-login.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="tutorSound" preload="auto">
+        <source src="/sounds/tutor-login.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="studentSound" preload="auto">
+        <source src="/sounds/student-login.mp3" type="audio/mpeg">
+    </audio>
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Login</h2>
+            @if (ViewBag.RemainingTime != null)
+            {
+                <div class="alert alert-warning text-center">
+                    <p>Your account is temporarily locked. Please wait for <span id="countdown">@ViewBag.RemainingTime</span> seconds before trying again.</p>
+                </div>
+                <script>
+                    let countdownElement = document.getElementById('countdown');
+                    let timeRemaining = parseInt(countdownElement.innerText, 10);
+
+                    let interval = setInterval(() => {
+                        timeRemaining -= 1;
+                        countdownElement.innerText = timeRemaining;
+
+                        if (timeRemaining <= 0) {
+                            clearInterval(interval);
+                            location.reload(); // Reload the page when countdown ends
+                        }
+                    }, 1000);
+                </script>
+            }
+            else
+            {
+                <form asp-action="Login" method="post">
+                    <div class="form-group">
+                        <label for="UserId">ID</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="material-icons">person</i>
+                                </span>
+                            </div>
+                            <input asp-for="UserId" class="form-control" id="UserId" placeholder="Enter ID (A001/T001/S001)" required aria-label="User ID" />
+                        </div>
+                        <span asp-validation-for="UserId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Password">Password</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="material-icons">lock</i>
+                                </span>
+                            </div>
+                            <input asp-for="Password" type="password" class="form-control" id="passwordField" required aria-label="Password" />
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-outline-secondary" id="togglePassword" aria-label="Toggle password visibility">
+                                    <i class="material-icons" id="passwordIcon">visibility</i>
+                                </button>
+                            </div>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger text-center mb-3"></div>
+
+                    <div class="forgot-links">
+                        <div>Don't have an account? <a href="/Student/Register">Register here</a></div>
+                        <a href="/Student/ResetPassword">Reset Password</a>
+                    </div>
+
+                    <button type="submit" class="login-btn">Login</button>
+                </form>
+            }
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#togglePassword').click(function() {
+                var passwordField = $('#passwordField');
+                var icon = $('#passwordIcon');
+                if (passwordField.attr('type') === 'password') {
+                    passwordField.attr('type', 'text');
+                    icon.text('visibility_off');
+                } else {
+                    passwordField.attr('type', 'password');
+                    icon.text('visibility');
+                }
+            });
+
+                    $('form').on('submit', function(e) {
+            e.preventDefault();
+            var form = this;
+            var userId = $('#UserId').val().charAt(0).toUpperCase();
+            var audioElement;
+
+            $.ajax({
+                url: form.action,
+                method: 'POST',
+                data: $(form).serialize(),
+                success: function(response) {
+                    if (response.redirectUrl) { // Login successful
+                        switch(userId) {
+                            case 'A': audioElement = document.getElementById('adminSound'); break;
+                            case 'T': audioElement = document.getElementById('tutorSound'); break;
+                            case 'S': audioElement = document.getElementById('studentSound'); break;
+                        }
+                        if (audioElement) {
+                            audioElement.play();
+                            setTimeout(() => window.location.href = response.redirectUrl, 500);
+                        }
+                    } else {
+                        form.submit(); // Handle validation errors
+                    }
+                }
+            });
+        });
+
+            if (@Json.Serialize(TempData["PlayLogoutSound"])) {
+                document.getElementById('logoutSound').play();
+            }
+        });
+    </script>
+</body>
+</html>

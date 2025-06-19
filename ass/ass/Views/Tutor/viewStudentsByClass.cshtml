@@ -1,0 +1,49 @@
+﻿<!-- viewStudentsByClass.cshtml -->
+@model IEnumerable<StudentViewModel>
+@{
+    ViewBag.Title = "Tutor | View Student By Class";
+    @Html.AntiForgeryToken()
+}
+
+<div class="container-fluid" id="container-wrapper">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Students in @ViewBag.ClassName</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("dashBoard", "Tutor")">Home</a></li>
+            <li class="breadcrumb-item"><a href="@Url.Action("viewStudent", "Tutor")">Classes</a></li>
+            <li class="breadcrumb-item active">Students</li>
+        </ol>
+    </div>
+
+    <div class="card mb-4">
+        <div class="table-responsive p-3">
+            <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>No</th>
+                        <th>Student Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int no = 1;
+                    }
+                    @foreach (var s in Model)
+                    {
+                            <tr>
+                                <td>@no</td>
+                                <td>@s.StudentName</td>
+                                <td>@s.StudentEmail</td>
+                                <td>@s.StudentPhone</td>
+                                <td>@s.VerifyStatus</td>
+                            </tr>
+                        no++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

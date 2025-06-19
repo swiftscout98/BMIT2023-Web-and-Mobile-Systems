@@ -1,0 +1,65 @@
+﻿@model SubjectVM
+@{
+    ViewBag.Title = "Admin | Subject Details";
+}
+
+<div class="main-content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Subject Details</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Subject ID</label>
+                                <input type="text" class="form-control" value="@Model.SubjectId" readonly />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Subject Name</label>
+                                <input type="text" class="form-control" value="@Model.SubjectName" readonly />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea class="form-control" rows="3" readonly>@Model.SubjectDescription</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Assigned Tutors</label>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Tutor ID</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var tutor in ViewBag.AssignedTutors)
+                                            {
+                                                <tr>
+                                                    <td>@tutor.TutorId</td>
+                                                    <td>@tutor.TutorName</td>
+                                                    <td>@tutor.TutorEmail</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <a asp-action="ViewSubject" class="btn btn-secondary">Back to List</a>
+                        <a asp-action="EditSubject" asp-route-id="@Model.SubjectId" class="btn btn-primary">Edit Subject</a>
+                        <a asp-action="AssignTutors" asp-route-id="@Model.SubjectId" class="btn btn-success">Manage Tutors</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

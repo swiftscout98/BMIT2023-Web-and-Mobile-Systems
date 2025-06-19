@@ -1,0 +1,49 @@
+﻿<!-- viewStudent.cshtml -->
+@model IEnumerable<ClassViewModel>
+@{
+    ViewBag.Title = "Tutor | View Student";
+    @Html.AntiForgeryToken()
+}
+
+<div class="container-fluid" id="container-wrapper">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">My Classes</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("dashBoard", "Tutor")">Home</a></li>
+            <li class="breadcrumb-item active">Classes</li>
+        </ol>
+    </div>
+
+    <div class="card mb-4">
+        <div class="table-responsive p-3">
+            <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>No</th>
+                        <th>Class Name</th>
+                        <th>Total Students</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int no = 1;
+                    }
+                    @foreach (var c in Model)
+                    {
+                        <tr>
+                            <td>@no</td>
+                            <td>@c.ClassName</td>
+                            <td>@c.StudentCount</td>
+                            <td>
+                                <a href="@Url.Action("viewStudentsByClass", "Tutor", new { classId = c.ClassId })"
+                                   class="btn btn-primary btn-sm">View Students</a>
+                            </td>
+                        </tr>
+                        no++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

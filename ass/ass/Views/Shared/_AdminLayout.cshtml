@@ -1,0 +1,257 @@
+﻿@inject DB db;
+@using System.Security.Claims
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <title>@ViewBag.Title</title>
+	<link rel="shortcut icon" href="/images/logo.png">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/AdminBootstrap.min.css">
+
+    <!----css3---->
+    <link rel="stylesheet" href="/css/AdminCustom.css">
+	<link rel="stylesheet" href="/css/validation.css">
+	<link rel="stylesheet" href="/css/toast.css">
+	<link rel="stylesheet" href="/css/dark-mode.css">
+
+
+    <!--google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+
+    <!--google material icon-->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="/css/pager.css">
+    <link rel="stylesheet" href="/css/2app.css">
+
+    @RenderSection("head", false)
+</head>
+<body>
+	<!-- Toast Container -->
+	<div class="toast-container" id="toastContainer"></div>
+
+	<div class="wrapper">
+
+		<div class="body-overlay"></div>
+
+		<!-------sidebar--design------------>
+
+		<div id="sidebar">
+			<div class="sidebar-header">
+				<h3><img src="~/images/logo.png" class="img-fluid" /><span>Admin Panel</span></h3>
+			</div>
+			<ul class="list-unstyled component m-0">
+				<li>
+					<a href="/Admin/Dashboard" class="dashboard"><i class="material-icons">dashboard</i>dashboard </a>
+				</li>
+
+				<li class="dropdown">
+					<a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="false"
+					   class="dropdown-toggle">
+						<i class="material-icons">aspect_ratio</i>Students
+					</a>
+					<ul class="collapse list-unstyled menu" id="homeSubmenu1">
+						<li><a href="/Admin/ViewStudent">View Student</a></li>
+						<li><a href="/Admin/InsertStudent">Add Student</a></li>
+					</ul>
+				</li>
+
+				<li class="dropdown">
+					<a href="#homeSubmenu2" data-toggle="collapse" aria-expanded="false"
+					   class="dropdown-toggle">
+						<i class="material-icons">apps</i>Tutor
+					</a>
+					<ul class="collapse list-unstyled menu" id="homeSubmenu2">
+						<li><a href="/Admin/ViewTutor">View Tutor</a></li>
+						<li><a href="/Admin/InsertTutor">Add Tutor</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#homeSubmenu3" data-toggle="collapse" aria-expanded="false"
+					   class="dropdown-toggle">
+						<i class="material-icons">equalizer</i>Class
+					</a>
+					<ul class="collapse list-unstyled menu" id="homeSubmenu3">
+						<li><a href="/Admin/ViewClass">View Class</a></li>
+						<li><a href="/Admin/InsertClass">Add Class</a></li>
+					</ul>
+				</li>
+
+
+				<li class="dropdown">
+					<a href="#homeSubmenu4" data-toggle="collapse" aria-expanded="false"
+					   class="dropdown-toggle">
+						<i class="material-icons">extension</i>Subject
+					</a>
+					<ul class="collapse list-unstyled menu" id="homeSubmenu4">
+						<li><a href="/Admin/ViewSubject">View Subject</a></li>
+						<li><a href="/Admin/InsertSubject">Add Subject</a></li>
+					</ul>
+				</li>
+
+				<li class="dropdown">
+					<a href="#homeSubmenu5" data-toggle="collapse" aria-expanded="false"
+					   class="dropdown-toggle">
+						<i class="material-icons">border_color</i>Attendance
+					</a>
+					<ul class="collapse list-unstyled menu" id="homeSubmenu5">
+						<li><a href="/Admin/ViewAttendance">View Attendance</a></li>
+					</ul>
+				</li>
+
+				<li class="dropdown">
+					<a href="#homeSubmenu6" data-toggle="collapse" aria-expanded="false"
+					   class="dropdown-toggle">
+						<i class="material-icons">grid_on</i>Schedule
+					</a>
+					<ul class="collapse list-unstyled menu" id="homeSubmenu6">
+						<li><a href="/Admin/ViewSchedule">View Schedule</a></li>
+						<li><a href="/Admin/ScheduleCalendar">View Calender</a></li>
+						<li><a href="/Admin/InsertSchedule">Add Schedule</a></li>
+					</ul>
+				</li>
+		</div>
+		<div id="content">
+
+			<!------top-navbar-start----------->
+
+			<div class="top-navbar">
+				<div class="xd-topbar">
+					<div class="row">
+						<div class="col-2 col-md-1 col-lg-1 order-2 order-md-1 align-self-center">
+							<div class="xp-menubar">
+								<span class="material-icons text-white">signal_cellular_alt</span>
+							</div>
+						</div>
+
+						<div class="col-md-5 col-lg-3 order-3 order-md-2">
+					
+						</div>
+						<div class="col-10 col-md-6 col-lg-8 order-1 order-md-3">
+							<div class="xp-profilebar text-right">
+								<nav class="navbar p-0">
+									<ul class="nav navbar-nav flex-row ml-auto">
+										<li class="dropdown nav-item">
+											<a class="nav-link" href="#" data-toggle="dropdown">
+												<div class="d-flex align-items-center">
+													<img src="@(string.IsNullOrEmpty(ViewBag.AdminPhotoURL) ? "/images/default-avatar.png" : $"/Admins/{ViewBag.AdminPhotoURL}")"
+														 alt="Profile Picture"
+														 alt="Profile"
+														 class="rounded-circle"
+														 style="width: 32px; height: 32px; object-fit: cover;" />
+													<span class="ml-2 text-white">@ViewBag.AdminName</span>
+												</div>
+											</a>
+											<div class="dropdown-menu dropdown-menu-right" style="min-width: 200px;">
+												<div class="px-3 py-2 text-muted">
+													<div class="d-flex align-items-center">
+														<img src="/Admins/@ViewBag.AdminPhotoURL" alt="Profile" class="rounded-circle" style="width: 24px; height: 24px;" />
+														<span class="ml-2">@ViewBag.AdminName</span>
+													</div>
+												</div>
+												<div class="dropdown-divider"></div>
+												<a class="dropdown-item py-2" href="@Url.Action("Profile", "Admin")">
+													<i class="material-icons" style="font-size: 16px;">person_outline</i>
+													<span class="ml-2">Profile</span>
+												</a>
+												<a class="dropdown-item py-2 text-danger" href="@Url.Action("Logout", "Auth")">
+													<i class="material-icons" style="font-size: 16px;">logout</i>
+													<span class="ml-2">Logout</span>
+												</a>
+											</div>
+										</li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="xp-breadcrumbbar text-center">
+						<h4 class="page-title">@ViewBag.Title</h4>
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item active ">Tuttion</li>
+							<li class="breadcrumb-item active" aria-current="page">@ViewBag.Title</li>
+						</ol>
+					</div>
+
+
+				</div>
+			</div>
+			<!------top-navbar-end----------->
+			<main style="min-height:750px">
+        <h1>@ViewBag.Title</h1>
+        @RenderBody()
+    </main>
+
+
+	<footer class="footer-admin">
+		<div class="container-fluid">
+			<div class="footer-in">
+				<p class="mb-0">&copy @DateTime.Today.Year TARUMT ATTENDANCE TRACKING SYSTEM . All Rights Reserved.</p>
+			</div>
+		</div>
+	</footer>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="/js/jquery.validate.min.js"></script>
+    <script src="/js/jquery.validate.unobtrusive.min.js"></script>
+    <script src="/js/app.js" asp-append-version="true"></script>
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="/js/jquery-3.3.1.slim.min.js"></script>
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery-3.3.1.min.js"></script>
+	<script src="/js/toast.js"></script>
+
+
+	@RenderSection("foot", false)
+	<!-- Add success message handling -->
+	@if (TempData["Success"] != null)
+	{
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				showToast('@Html.Raw(TempData["Success"])', 'success');
+			});
+		</script>
+	}
+
+	@if (TempData["Error"] != null)
+	{
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				showToast('@Html.Raw(TempData["Error"])', 'error');
+			});
+		</script>
+	}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".xp-menubar").on('click',function(){
+				$("#sidebar").toggleClass('active');
+				$("#content").toggleClass('active');
+			});
+
+			$('.xp-menubar,.body-overlay').on('click',function(){
+				$("#sidebar,.body-overlay").toggleClass('show-nav');
+			});
+
+		});
+
+		function handleAjaxResponse(response) {
+		if (response.success) {
+			showToast(response.message, 'success');
+		} else {
+			showToast(response.message, 'error');
+		}
+	}
+	</script>
+</body>
+</html>

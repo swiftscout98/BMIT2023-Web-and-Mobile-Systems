@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Subject>
+@{
+    ViewBag.Title = "Admin | View Subjects";
+}
+
+<div class="main-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>Manage Subjects</h2>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="search-box">
+                                <input type="text" id="searchInput" class="form-control" placeholder="Search">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="subjectTableContainer">
+                    @await Html.PartialAsync("_SubjectTable", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section foot {
+    <script>
+        let currentPage = 1;
+        let currentSort = '';
+        let currentDir = '';
+        let searchTimer;
+
+        function loadData(page = 1, sort = currentSort, dir = currentDir) {
+            let searchTerm = $('#searchInput').val();
+
+            $.ajax({
+                url: '/Admin/GetSubjectData',
+                data: {
+                    page: page,
+                    sort: sort,
+                    dir: dir,
+                    searchTerm: searchTerm
+                },
+                beforeSend: function() {
+                    $('#loader').show();
+                },
+                success: function(result) {
+                    $('#subjectTableContainer').html(result);
+                    currentPage = page;
+                    currentSort = sort;
+                    currentDir = dir;
+                },
+                complete: function() {
+                    $('#loader').hide();
+                }
+            });
+        }
+
+        $('#searchInput').on('input', function() {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(() => {
+                currentPage = 1;
+                loadData();
+            }, 500);
+        });
+
+        function sortData(column) {
+            let dir = 'asc';
+            if (currentSort === column) {
+                dir = currentDir === 'asc' ? 'desc' : 'asc';
+            }
+            loadData(1, column, dir);
+        }
+
+        function deleteSubject(id, name) {
+            if (confirm('Are you sure you want to delete ' + name + '?')) {
+                $.ajax({
+                    url: '/Admin/DeleteSubject',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function(result) {
+                        if (result.success) {
+                            showToast(result.message, 'success');
+                            loadData(currentPage);
+                        } else {
+                            showToast(result.message, 'error');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error deleting subject:', error);
+                        showFlashMessage('Error deleting subject. Please try again.');
+                    }
+                });
+            }
+        }
+
+        $(document).ready(function() {
+            loadData();
+        });
+    </script>
+}

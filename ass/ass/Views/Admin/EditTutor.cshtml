@@ -1,0 +1,124 @@
+﻿@model TutorUpdateVM
+
+@{
+    ViewBag.Title = "Admin | Edit Tutor";
+}
+
+<div class="container">
+    <div class="table-title">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2>Edit Tutor</h2>
+            </div>
+        </div>
+    </div>
+
+    <form id="studentForm" asp-action="EditTutor" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger validation-summary"></div>
+
+        <input type="hidden" asp-for="TutorId" />
+        <input type="hidden" asp-for="PhotoURL" />
+
+        <div class="form-group">
+            <label asp-for="TutorId">Tutor ID</label>
+            <input value="@Model.TutorId" class="form-control" disabled />
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="TutorName" class="form-label">Tutor Name</label>
+            <input asp-for="TutorName" class="form-control" />
+            <span asp-validation-for="TutorName" class="text-danger validation-message"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="TutorEmail" class="form-label">Tutor Email</label>
+            <input asp-for="TutorEmail" class="form-control" />
+            <span asp-validation-for="TutorEmail" class="text-danger validation-message"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="TutorPhone" class="form-label">Tutor Phone</label>
+            <input asp-for="TutorPhone" class="form-control" placeholder="01X-XXXXXXXX" />
+            <span asp-validation-for="TutorPhone" class="text-danger validation-message"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="TutorGender" class="form-label d-block">Tutor Gender</label>
+            <div class="form-check form-check-inline">
+                <input asp-for="TutorGender" type="radio" value="F" class="form-check-input" id="genderF">
+                <label class="form-check-label" for="genderF">Female</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input asp-for="TutorGender" type="radio" value="M" class="form-check-input" id="genderM">
+                <label class="form-check-label" for="genderM">Male</label>
+            </div>
+            <span asp-validation-for="TutorGender" class="text-danger d-block validation-message"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="form-label">Tutor Profile Photo</label>
+            <div class="upload">
+                <input type="file" name="Photo" class="form-control" accept="image/jpeg,image/png">
+                <span class="text-danger validation-message" asp-validation-for="Photo"></span>
+                <img src="/Tutors/@Model.PhotoURL" class="img-thumbnail mt-2">
+            </div>
+        </div>
+        
+        <div class="form-group mb-3">
+            <label asp-for="TutorPassword" class="form-label">Password</label>
+            <div class="input-group">
+                <input asp-for="TutorPassword" value="@Model.TutorPassword" type="password" class="form-control" />
+                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                    <i class="bi bi-eye"></i>
+                </button>
+            </div>
+            <span asp-validation-for="TutorPassword" class="text-danger validation-message"></span>
+            <div id="passwordRequirements" class="form-text">
+                Password must contain:
+                <ul class="mb-0">
+                    <li id="lengthCheck">✗ At least 8 characters</li>
+                    <li id="upperCheck">✗ One uppercase letter</li>
+                    <li id="lowerCheck">✗ One lowercase letter</li>
+                    <li id="numberCheck">✗ One number</li>
+                    <li id="specialCheck">✗ One special character</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group mt-4">
+            <button type="submit" class="btn btn-primary me-2">Update</button>
+            <a href="@Url.Action("ViewTutor")" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section foot {
+    <script>
+            // Real-time password validation
+            $('#TutorPassword').on('input', function() {
+                const password = $(this).val();
+
+                // Check each requirement
+                $('#lengthCheck').toggleClass('valid', password.length >= 8);
+                $('#upperCheck').toggleClass('valid', /[A-Z]/.test(password));
+                $('#lowerCheck').toggleClass('valid', /[a-z]/.test(password));
+                $('#numberCheck').toggleClass('valid', /\d/.test(password));
+                $('#specialCheck').toggleClass('valid', /[^\da-zA-Z]/.test(password));
+            });
+
+            // Toggle password visibility
+            $('#togglePassword').click(function() {
+                const passwordInput = $('#TutorPassword');
+                const icon = $(this).find('i');
+
+                if (passwordInput.attr('type') === 'password') {
+                    passwordInput.attr('type', 'text');
+                    icon.removeClass('bi-eye').addClass('bi-eye-slash');
+                } else {
+                    passwordInput.attr('type', 'password');
+                    icon.removeClass('bi-eye-slash').addClass('bi-eye');
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,82 @@
+﻿@model ClassVM
+@{
+    ViewBag.Title = "Admin | Class Details";
+    var assignedStudents = ViewBag.AssignedStudents as List<Student>;
+}
+
+<div class="main-content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Class Details</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Class ID</label>
+                                <input type="text" class="form-control" value="@Model.ClassId" readonly />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Class Name</label>
+                                <input type="text" class="form-control" value="@Model.ClassName" readonly />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea class="form-control" rows="3" readonly>@Model.ClassDescription</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Status</label>
+                                <input type="text" class="form-control" value="@Model.Status" readonly />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <h6>Assigned Students (@(assignedStudents?.Count ?? 0))</h6>
+                        <div class="table-responsive">
+                            @if (assignedStudents != null && assignedStudents.Count > 0)
+                            {
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Student ID</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var student in assignedStudents)
+                                        {
+                                            <tr>
+                                                <td>@student.StudentId</td>
+                                                <td>@student.StudentName</td>
+                                                <td>@student.StudentEmail</td>
+                                                <td>@student.StudentPhone</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <div class="alert alert-info">
+                                    No students assigned to this class yet.
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <a asp-action="ViewClass" class="btn btn-secondary">Back to List</a>
+                        <a asp-action="EditClass" asp-route-id="@Model.ClassId" class="btn btn-primary">Edit Class</a>
+                        <a asp-action="AssignStudents" asp-route-id="@Model.ClassId" class="btn btn-success">Manage Students</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

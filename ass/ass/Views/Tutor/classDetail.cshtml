@@ -1,0 +1,163 @@
+﻿@model ClassDetailViewModel
+@{
+    ViewBag.Title = "Tutor | Class Detail";
+    var counter = 1;
+    @Html.AntiForgeryToken()
+}
+
+<div class="container-fluid">
+    <!-- Class Info Card -->
+    <div class="card mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Class Information</h6>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <tr>
+                    <td width="150"><strong>Class Name:</strong></td>
+                    <td>@Model.ClassName</td>
+                </tr>
+                <tr>
+                    <td><strong>Subject:</strong></td>
+                    <td>@Model.Subject</td>
+                </tr>
+                <tr>
+                    <td><strong>Time:</strong></td>
+                    <td>@Model.Time</td>
+                </tr>
+                <tr>
+                    <td><strong>Students:</strong></td>
+                    <td>@Model.StudentCount</td>
+                </tr>
+                <tr>
+                    <td><strong>Attendance Status:</strong></td>
+                    <td>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="badge badge-success">Present: @Model.PresentCount</span>
+                                <span class="badge badge-danger ml-2">Absent: @Model.AbsentCount</span>
+                                <span class="badge badge-warning ml-2">Not Marked: @Model.NotMarkedCount</span>
+                            </div>
+                            <div>
+                                <span class="badge badge-info">Attendance Rate: @Model.AttendanceRate.ToString("F1")%</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+    <!-- Attendance Card -->
+    <div class="card mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Class Attendance</h6>
+            <div class="btn-group">
+                <button type="button" class="btn btn-success btn-sm" onclick="markAllPresent()">Mark All Present</button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="markAllAbsent()">Mark All Absent</button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="saveAttendance()">Save Attendance</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Student Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Current Status</th>
+                        <th class="text-center">Mark Attendance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var student in Model.Students)
+                    {
+                        <tr>
+                            <td>@(counter++)</td>
+                            <td>@student.StudentName</td>
+                            <td>@student.StudentEmail</td>
+                            <td>@student.StudentPhone</td>
+                            <td class="text-center">
+                                @if (student.Status == "Present")
+                                {
+                                    <span class="badge badge-success">Present</span>
+                                }
+                                else if (student.Status == "Absent")
+                                {
+                                    <span class="badge badge-danger">Absent</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-warning">Not Marked</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <input type="radio" name="attendance_@student.StudentId" value="P" class="btn-check"
+                                           id="present_@student.StudentId" @(student.Status == "Y" || student.Status == "Present" ? "checked" : "")>
+                                    <label class="btn btn-outline-success btn-sm" for="present_@student.StudentId">Present</label>
+
+                                    <input type="radio" name="attendance_@student.StudentId" value="A" class="btn-check"
+                                           id="absent_@student.StudentId" @(student.Status == "N" || student.Status == "Absent" ? "checked" : "")>
+                                    <label class="btn btn-outline-danger btn-sm" for="absent_@student.StudentId">Absent</label>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <a href="@Url.Action("ViewClass", "Tutor")" class="btn btn-secondary">Back to Class List</a>
+    </div>
+</div>
+
+@section foot {
+    <script>
+        function markAllPresent() {
+            document.querySelectorAll('input[value="P"]').forEach(radio => radio.checked = true);
+        }
+
+        function markAllAbsent() {
+            document.querySelectorAll('input[value="A"]').forEach(radio => radio.checked = true);
+        }
+
+        function saveAttendance() {
+            const attendanceData = [];
+            document.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
+                const studentId = radio.id.split('_')[1];
+                const status = radio.value;
+                attendanceData.push({ studentId, status });
+            });
+
+            fetch('@Url.Action("UpdateAttendance", "Tutor")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    scheduleId: '@Model.ScheduleId',
+                    attendanceData: attendanceData
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Attendance saved successfully!');
+                    location.reload();
+                } else {
+                    alert('Error saving attendance: ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('Error saving attendance: ' + error);
+            });
+        }
+    </script>
+}

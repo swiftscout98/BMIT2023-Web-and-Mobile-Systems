@@ -1,0 +1,127 @@
+﻿@model List<ClassAttendanceViewModel>
+@{
+    ViewBag.Title = "Tutor | View Class";
+    @Html.AntiForgeryToken()
+}
+<div class="container-fluid" id="container-wrapper">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">View Class Attendance</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("dashBoard", "Tutor" )">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">View Class Attendance</li>
+        </ol>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <!-- Date Selection Form -->
+            <div class="card mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Select Date</h6>
+                </div>
+                <div class="card-body">
+                    <form method="post" class="form-inline">
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="dateTaken" class="sr-only">Date</label>
+                            <input type="date" class="form-control" name="dateTaken"
+                                   value="@ViewBag.SelectedDate" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary mb-2">View Classes</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Classes List -->
+            <div class="card mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Classes for @DateTime.Parse(ViewBag.SelectedDate).ToString("dd/MM/yyyy")</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Class Name</th>
+                                    <th>Time</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Any())
+                                {
+                                    foreach (var classGroup in Model)
+                                    {
+                                        var isClassTime = DateTime.Now.TimeOfDay >= classGroup.StartTime &&
+                                        DateTime.Now.TimeOfDay <= classGroup.EndTime;
+                                        var isClassDate = classGroup.Date.Date == DateTime.Today;
+                                        var canMarkAttendance = isClassDate && isClassTime;
+                                        var isPastClass = classGroup.Date.Date < DateTime.Today ||
+                                        (isClassDate && DateTime.Now.TimeOfDay > classGroup.EndTime);
+
+                                        <tr>
+                                            <td>@classGroup.ClassName</td>
+                                            <td>@classGroup.StartTime.ToString(@"hh\:mm") - @classGroup.EndTime.ToString(@"hh\:mm")</td>
+                                            <td>
+                                                @if (canMarkAttendance)
+                                                {
+                                                    <span class="badge badge-success">In Progress</span>
+                                                }
+                                                else if (isPastClass)
+                                                {
+                                                    <span class="badge badge-warning">Past</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-info">Upcoming</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (canMarkAttendance)
+                                                {
+                                                    <a href="@Url.Action("ClassDetail", "Tutor", new { className = classGroup.ClassName })"
+                                                       class="btn btn-primary btn-sm">
+                                                        Mark Attendance
+                                                    </a>
+                                                }
+                                                else if (isPastClass)
+                                                {
+                                                    <button type="button" class="btn btn-warning btn-sm"
+                                                            onclick="confirmLateAttendance('@classGroup.ClassName')">
+                                                        Late Attendance
+                                                    </button>
+                                                }
+                                                else
+                                                {
+                                                    <button class="btn btn-secondary btn-sm" disabled>
+                                                        Not Yet Started
+                                                    </button>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4" class="text-center">No classes scheduled for this date.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section foot {
+    <script>
+        function confirmLateAttendance(className) {
+            if (confirm('Are you sure you want to mark late attendance for this class?')) {
+                window.location.href = '@Url.Action("ClassDetail", "Tutor")?className=' + encodeURIComponent(className);
+            }
+        }
+    </script>
+}

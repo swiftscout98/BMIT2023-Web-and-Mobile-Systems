@@ -1,0 +1,131 @@
+﻿@model AdminProfileVM
+@{
+    ViewBag.Title = "Admin | Profile";
+}
+
+<div class="container-xl px-4 mt-4">
+    <div class="row">
+        <!-- Profile Details Card -->
+        <div class="col-xl-8">
+            <div class="card mb-4">
+                <div class="card-header">Profile Information</div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" asp-action="UpdateProfile" asp-controller="Admin">
+                        <input type="hidden" asp-for="AdminId" />
+                        <input type="hidden" asp-for="PhotoURL" />
+
+                        <div class="mb-3">
+                            <label class="small mb-1">Admin ID</label>
+                            <input class="form-control" type="text" value="@Model.AdminId" disabled>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="small mb-1" for="AdminName">Full Name</label>
+                            <input class="form-control" asp-for="AdminName" data-trim>
+                            <span asp-validation-for="AdminName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="small mb-1" for="Photo">Update Profile Picture</label>
+                            <div class="upload">
+                                <img class="img-account-profile rounded-circle mb-2"
+                                     src="@(string.IsNullOrEmpty(Model.PhotoURL) ? "/images/default-avatar.png" : $"/Admins/{Model.PhotoURL}")"
+                                     alt="Profile Picture"
+                                     style="width: 150px; height: 150px; object-fit: cover;">
+                                <input type="file" class="form-control" asp-for="Photo" accept="image/jpeg,image/png">
+                            </div>
+                            <span asp-validation-for="Photo" class="text-danger"></span>
+                        </div>
+
+                        <button class="btn btn-primary" type="submit">Save Profile</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Password Change Card -->
+            <div class="card mb-4">
+                <div class="card-header">Change Password</div>
+                <div class="card-body">
+                    <form method="post" asp-action="ChangePassword">
+                        @Html.HiddenFor(m => m.AdminId)
+
+                        <div class="mb-3">
+                            <label class="small mb-1" for="CurrentPassword">Current Password</label>
+                            <input class="form-control" type="password" asp-for="CurrentPassword">
+                            <span asp-validation-for="CurrentPassword" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="small mb-1" for="NewPassword">New Password</label>
+                            <input class="form-control" type="password" asp-for="NewPassword">
+                            <span asp-validation-for="NewPassword" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="small mb-1" for="ConfirmPassword">Confirm New Password</label>
+                            <input class="form-control" type="password" asp-for="ConfirmPassword">
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        <div id="passwordRequirements" class="form-text">
+                            Password must contain:
+                            <ul class="mb-0">
+                                <li id="lengthCheck">✗ At least 8 characters</li>
+                                <li id="upperCheck">✗ One uppercase letter</li>
+                                <li id="lowerCheck">✗ One lowercase letter</li>
+                                <li id="numberCheck">✗ One number</li>
+                                <li id="specialCheck">✗ One special character</li>
+                            </ul>
+                        </div>
+
+                        <button class="btn btn-warning" type="submit">Change Password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section head {
+    <style>
+        .img-account-profile {
+            border: 2px solid #e0e0e0;
+        }
+
+        .card {
+            box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            font-weight: 500;
+            padding: 1rem 1.35rem;
+            margin-bottom: 0;
+            background-color: rgba(33, 40, 50, 0.03);
+            border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+        }
+
+        .card-body {
+            padding: 1.25rem;
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #4c7cf3;
+        }
+
+        .btn {
+            padding: 0.475rem 0.75rem;
+        }
+
+        .btn-warning {
+            color: #fff;
+            background-color: #f7c32e;
+            border-color: #f7c32e;
+        }
+
+        .btn-warning:hover {
+            color: #fff;
+            background-color: #e5b429;
+            border-color: #e5b429;
+        }
+    </style>
+}

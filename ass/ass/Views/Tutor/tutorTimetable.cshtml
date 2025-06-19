@@ -1,0 +1,165 @@
+﻿@model Dictionary<DateOnly, List<Schedule>>
+@{
+    Layout = "_tutorLayout";
+    ViewBag.Title = "Tutor Timetable";
+    @Html.AntiForgeryToken()
+}
+
+@section head {
+    <style>
+        .cal {
+            display: grid;
+            grid: auto / repeat(7, 1fr);
+            border: 1px solid #999;
+            margin-top: 20px;
+        }
+
+            .cal > h3 {
+                border: 1px solid #999;
+                margin: 0;
+                padding: 10px;
+                text-align: center;
+                background-color: #4e73df;
+                color: white;
+            }
+
+            .cal > div {
+                border: 1px solid #999;
+                padding: 10px;
+                min-height: 100px;
+            }
+
+                .cal > div.x {
+                    background-color: #f8f9fc;
+                }
+
+        .calendar-box {
+            border: 1px solid #999;
+            padding: 10px;
+            min-height: 100px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+            .calendar-box:hover {
+                background-color: #eaecf4;
+                cursor: pointer;
+            }
+
+            .calendar-box.x {
+                background-color: #f8f9fc;
+            }
+
+        .date-badge {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .class-item {
+            margin: 5px 0;
+            padding: 5px;
+            background-color: #4e73df;
+            color: white;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .class-time {
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .month-selector {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        select {
+            padding: 5px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 5px 15px;
+            background-color: #4e73df;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #2e59d9;
+            }
+    </style>
+}
+
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Tutor Timetable</h1>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <form class="month-selector">
+                @Html.DropDownList("Month", (SelectList)ViewBag.MonthList, new { @class = "form-control-sm" })
+                @Html.DropDownList("Year", (SelectList)ViewBag.YearList, new { @class = "form-control-sm" })
+                <button class="btn btn-primary btn-sm">View Schedule</button>
+            </form>
+        </div>
+        <div class="card-body">
+            @{
+                int month = ViewBag.Month;
+                int year = ViewBag.Year;
+                string heading = new DateOnly(year, month, 1).ToString("MMMM yyyy");
+                var arr = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.DayNames;
+            }
+
+            <h4 class="text-center mb-4">@heading</h4>
+
+            <div class="cal">
+                <h3>@arr[1]</h3>
+                <h3>@arr[2]</h3>
+                <h3>@arr[3]</h3>
+                <h3>@arr[4]</h3>
+                <h3>@arr[5]</h3>
+                <h3>@arr[6]</h3>
+                <h3>@arr[0]</h3>
+
+                @foreach (var (date, events) in Model)
+                {
+                    string c = date.Month == month ? "" : "x";
+
+                    <a href="@Url.Action("ClassDetail", "Tutor", new { className = events.FirstOrDefault()?.Class?.ClassName })"
+                       class="calendar-box @c">
+                        <div class="date-badge">@date.Day</div>
+                        @foreach (var e in events)
+                        {
+                            <div class="class-item">
+                                @(e.Class?.ClassName ?? "No Class")
+                                <div class="class-time">
+                                    @e.StartTime.ToString(@"hh\:mm") - @e.EndTime.ToString(@"hh\:mm")
+                                    @(e.StartTime.Hours >= 12 ? "PM" : "AM")
+                                </div>
+                            </div>
+                        }
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section foot {
+    <script>
+        // Submit form if select list changed
+        $('select').change(e => $(e.target.form).submit());
+    </script>
+}

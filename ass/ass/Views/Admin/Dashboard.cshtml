@@ -1,0 +1,374 @@
+﻿@model DashboardViewModel
+@{
+    ViewBag.Title = "Admin | Dashboard";
+}
+    <style>
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            border: none;
+            border-radius: 0.35rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            border-bottom: 1px solid #e3e6f0;
+            padding: 1rem;
+        }
+
+        canvas {
+            max-width: 100% !important;
+            height: 100% !important;
+        }
+    </style>
+
+    <!-- Summary Cards Row -->
+<audio id="loginSound" preload="auto">
+    <source src="/sounds/login-success.mp3" type="audio/mpeg">
+</audio>
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Total Students</span>
+                    <i class="material-icons">school</i>
+                </div>
+                <div class="card-body">
+                    <h2 class="card-title">@Model.StudentCount</h2>
+                    <p class="card-text">
+                        <small>@Model.VerifiedStudentCount verified, @Model.PendingStudentCount pending</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Total Teachers</span>
+                    <i class="material-icons">person</i>
+                </div>
+                <div class="card-body">
+                    <h2 class="card-title">@Model.TeacherCount</h2>
+                    <p class="card-text">Active tutors</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Total Classes</span>
+                    <i class="material-icons">class</i>
+                </div>
+                <div class="card-body">
+                    <h2 class="card-title">@Model.ClassCount</h2>
+                    <p class="card-text">@Model.ActiveClassCount active classes</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Total Subjects</span>
+                    <i class="material-icons">book</i>
+                </div>
+                <div class="card-body">
+                    <h2 class="card-title">@Model.SubjectCount</h2>
+                    <p class="card-text">Available subjects</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row">
+        <!-- Class Distribution Chart -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="m-0 font-weight-bold text-primary">Students per Class</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="classDistributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subject Distribution Chart -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="m-0 font-weight-bold text-primary">Tutors per Subject</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="subjectDistributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gender Distribution Chart -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="m-0 font-weight-bold text-primary">Student Gender Distribution</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="genderDistributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Class Status Chart -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="m-0 font-weight-bold text-primary">Class Status Distribution</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="classStatusChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="row">
+    <!-- Attendance Trends Chart -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">Attendance Trends (Last 7 Days)</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="attendanceTrendsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schedule Distribution Chart -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">Weekly Schedule Distribution</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="scheduleDistributionChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section foot {
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Parse data from server-side
+        const studentsPerClass = @Html.Raw(Json.Serialize(Model.StudentsPerClass));
+        const tutorsPerSubject = @Html.Raw(Json.Serialize(Model.TutorsPerSubject));
+        const genderDistribution = @Html.Raw(Json.Serialize(Model.StudentGenderDistribution));
+        const classStatus = @Html.Raw(Json.Serialize(Model.ClassStatusDistribution));
+        const attendanceTrends = @Html.Raw(Json.Serialize(Model.AttendanceTrends));
+        const weeklySchedules = @Html.Raw(Json.Serialize(Model.WeeklyScheduleDistribution));
+
+        // Students per Class Chart
+        new Chart(document.getElementById('classDistributionChart'), {
+            type: 'bar',
+            data: {
+                labels: Object.keys(studentsPerClass),
+                datasets: [{
+                    label: 'Number of Students',
+                    data: Object.values(studentsPerClass),
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Students per Class'
+                    }
+                }
+            }
+        });
+
+        // Tutors per Subject Chart
+        new Chart(document.getElementById('subjectDistributionChart'), {
+            type: 'bar',
+            data: {
+                labels: Object.keys(tutorsPerSubject),
+                datasets: [{
+                    label: 'Number of Tutors',
+                    data: Object.values(tutorsPerSubject),
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Tutors per Subject'
+                    }
+                }
+            }
+        });
+
+        // Gender Distribution Chart
+        new Chart(document.getElementById('genderDistributionChart'), {
+            type: 'pie',
+            data: {
+                labels: Object.keys(genderDistribution),
+                datasets: [{
+                    data: Object.values(genderDistribution),
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 99, 132, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Student Gender Distribution'
+                    }
+                }
+            }
+        });
+
+        // Class Status Chart
+        new Chart(document.getElementById('classStatusChart'), {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(classStatus),
+                datasets: [{
+                    data: Object.values(classStatus),
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(255, 99, 132, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Class Status Distribution'
+                    }
+                }
+            }
+        });
+
+        // Attendance Trends Chart
+        new Chart(document.getElementById('attendanceTrendsChart'), {
+            type: 'line',
+            data: {
+                labels: Object.keys(attendanceTrends),
+                datasets: [{
+                    label: 'Attendance Rate (%)',
+                    data: Object.values(attendanceTrends),
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Attendance Trends (Last 7 Days)'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+
+        // Weekly Schedule Distribution Chart
+        const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+        new Chart(document.getElementById('scheduleDistributionChart'), {
+            type: 'bar',
+            data: {
+                labels: daysOfWeek,
+                datasets: [{
+                    label: 'Number of Classes',
+                    data: daysOfWeek.map(day => weeklySchedules[day] || 0), // Fixed: using daysOfWeek instead of labels
+                    backgroundColor: 'rgba(153, 102, 255, 0.5)',
+                    borderColor: 'rgb(153, 102, 255)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Weekly Schedule Distribution'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+}

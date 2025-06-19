@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Class>
+@{
+    ViewBag.Title = "Admin | Views Class";
+}
+
+<div class="main-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>Manage Classes</h2>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="search-box">
+                                <input type="text" id="searchInput" class="form-control" placeholder="Search">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="classTableContainer">
+                    @await Html.PartialAsync("_ClassTable", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section foot {
+    <script>
+        let currentPage = 1;
+        let currentSort = '';
+        let currentDir = '';
+        let searchTimer;
+
+        // Function to load data with all parameters
+        function loadData(page = 1, sort = currentSort, dir = currentDir) {
+            let searchTerm = $('#searchInput').val();
+
+            $.ajax({
+                url: '/Admin/GetClassData',
+                data: {
+                    page: page,
+                    sort: sort,
+                    dir: dir,
+                    searchTerm: searchTerm
+                },
+                beforeSend: function() {
+                    $('#loader').show();
+                },
+                success: function(result) {
+                    $('#classTableContainer').html(result);
+                    currentPage = page;
+                    currentSort = sort;
+                    currentDir = dir;
+                },
+                complete: function() {
+                    $('#loader').hide();
+                }
+            });
+        }
+
+        // Search with debouncing
+        $('#searchInput').on('input', function() {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(() => {
+                currentPage = 1; // Reset to first page on search
+                loadData();
+            }, 500);
+        });
+
+        // Sort handling
+        function sortData(column) {
+            let dir = 'asc';
+            if (currentSort === column) {
+                dir = currentDir === 'asc' ? 'desc' : 'asc';
+            }
+            loadData(1, column, dir);
+        }
+
+        // Delete handling
+        function deleteClass(id, name) {
+            if (confirm('Are you sure you want to delete ' + name + '?')) {
+                $.ajax({
+                    url: '/Admin/DeleteClass',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function(result) {
+                        if (result.success) {
+                            showToast(result.message, 'success');                            
+                            loadData(currentPage);
+                        } else {
+                            showToast(result.message, 'error');
+
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error deleting class:', error);
+                        showFlashMessage('Error deleting class. Please try again.');
+                    }
+                });
+            }
+        }
+        // Initialize page
+        $(document).ready(function() {
+            loadData();
+        });
+    </script>
+}

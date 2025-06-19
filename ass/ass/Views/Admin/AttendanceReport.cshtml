@@ -1,0 +1,240 @@
+﻿@model List<AttendanceReportVM>
+@{
+    ViewBag.Title = "Admin | Attendance Report";
+}
+
+<div class="main-content">
+    <div class="container-fluid">
+        <!-- Header Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap">
+                            <h4 class="card-title mb-3 mb-md-0">Attendance Report</h4>
+                            <div class="d-flex gap-2">
+                                <select id="classFilter" class="form-select" style="min-width: 200px;">
+                                    <option value="">All Classes</option>
+                                    @foreach (var cls in ViewBag.Classes)
+                                    {
+                                        <option value="@cls.ClassId" selected="@(cls.ClassId == ViewBag.SelectedClassId)">
+                                            @cls.ClassName
+                                        </option>
+                                    }
+                                </select>
+                                <input type="date" id="startDate" class="form-control" value="@(ViewBag.StartDate?.ToString("yyyy-MM-dd"))" />
+                                <input type="date" id="endDate" class="form-control" value="@(ViewBag.EndDate?.ToString("yyyy-MM-dd"))" />
+                                <button onclick="generateReport()" class="btn btn-primary">
+                                    <i class="bi bi-search"></i> Generate
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.Any())
+        {
+            <!-- Statistics Cards -->
+            <div class="row mb-4">
+                <div class="col-md-4 col-xl-3 mb-3">
+                    <div class="card bg-primary text-white h-100">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2">Total Students</h6>
+                            <h2 class="card-title mb-0">@ViewBag.OverallStats.TotalStudents</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xl-3 mb-3">
+                    <div class="card bg-success text-white h-100">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2">Average Attendance</h6>
+                            <h2 class="card-title mb-0">@ViewBag.OverallStats.AverageAttendance.ToString("F1")%</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xl-3 mb-3">
+                    <div class="card bg-info text-white h-100">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2">Attendance Rates</h6>
+                            <h2 class="card-title mb-0">@ViewBag.OverallStats.PerfectAttendance</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xl-3 mb-3">
+                    <div class="card bg-warning text-white h-100">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2">Low Attendance</h6>
+                            <h2 class="card-title mb-0">@ViewBag.OverallStats.LowAttendance</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attendance Trend Chart -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Attendance Trends</h5>
+                            <canvas id="attendanceChart" height="100"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Export Options </h5>
+                        <div class="d-flex gap-2">
+                            <button onclick="exportExcel()" class="btn btn-success">
+                                <i class="bi bi-file-excel me-2"></i>Export to Excel
+                            </button>
+                            <button onclick="exportReportPDF()" class="btn btn-danger">
+                                <i class="bi bi-file-pdf me-2"></i>Export to PDF
+                            </button>
+                            <button onclick="exportReportCSV()" class="btn btn-primary">
+                                <i class="bi bi-file-text me-2"></i>Export to CSV
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Class-wise Reports -->
+            @foreach (var classGroup in Model.GroupBy(m => m.ClassName))
+            {
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="mb-0">@classGroup.Key</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Student ID</th>
+                                        <th>Student Name</th>
+                                        <th class="text-center">Total Days</th>
+                                        <th class="text-center">Present</th>
+                                        <th class="text-center">Absent</th>
+                                        <th class="text-center">Attendance Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in classGroup)
+                                    {
+                                        <tr>
+                                            <td>@item.StudentId</td>
+                                            <td>@item.StudentName</td>
+                                            <td class="text-center">@item.TotalDays</td>
+                                            <td class="text-center">@item.PresentDays</td>
+                                            <td class="text-center">@item.AbsentDays</td>
+                                            <td class="text-center">
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <div class="progress" style="width: 100px; height: 10px; margin-right: 10px;">
+                                                        <div class="progress-bar @(item.AttendanceRate >= 90 ? "bg-success" :
+                                                                                item.AttendanceRate >= 75 ? "bg-warning" : "bg-danger")"
+                                                             role="progressbar"
+                                                             style="width: @item.AttendanceRate%">
+                                                        </div>
+                                                    </div>
+                                                    <span>@item.AttendanceRate.ToString("F1")%</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                    <tr class="table-info">
+                                        <td colspan="5"><strong>Class Average</strong></td>
+                                        <td class="text-center">
+                                            <strong>@classGroup.Average(x => x.AttendanceRate).ToString("F1")%</strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle me-2"></i>
+                No attendance records found for the selected criteria.
+            </div>
+        }
+    </div>
+</div>
+
+@section foot {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Initialize attendance trend chart
+        const ctx = document.getElementById('attendanceChart').getContext('2d');
+        const dailyTrends = @Html.Raw(Json.Serialize(ViewBag.DailyTrends));
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dailyTrends.map(d => d.date),
+                datasets: [{
+                    label: 'Daily Attendance Rate',
+                    data: dailyTrends.map(d => d.attendanceRate),
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        function generateReport() {
+            var classId = $('#classFilter').val();
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+            window.location.href = `/Admin/AttendanceReport?classId=${classId}&startDate=${startDate}&endDate=${endDate}`;
+        }
+
+        function exportExcel() {
+            var classId = $('#classFilter').val();
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+            window.location.href = `/Admin/ExportAttendanceReport?classId=${classId}&startDate=${startDate}&endDate=${endDate}`;
+        }
+
+        function exportReportPDF() {
+            var classId = $('#classFilter').val();
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+            window.location.href = `/Admin/ExportAttendanceReportPDF?classId=${classId}&startDate=${startDate}&endDate=${endDate}`;
+        }
+
+        function exportReportCSV() {
+            var classId = $('#classFilter').val();
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+            window.location.href = `/Admin/ExportAttendanceReportCSV?classId=${classId}&startDate=${startDate}&endDate=${endDate}`;
+        }
+    </script>
+}

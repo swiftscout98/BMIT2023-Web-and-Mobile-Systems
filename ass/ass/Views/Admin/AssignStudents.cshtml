@@ -1,0 +1,136 @@
+﻿@{
+    ViewBag.Title = "Admin | Assign Students";
+    var classItem = ViewBag.Class;
+    var allStudents = ViewBag.AllStudents;
+    var assignedStudentIds = ViewBag.AssignedStudentIds;
+}
+
+<div class="main-content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Assign Students to @classItem.ClassName</h5>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="alert alert-info">
+                                Current Status: @classItem.Status<br />
+                                Students Assigned: @assignedStudentIds.Count
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <label>Available Students</label>
+                            <div>
+                                <input type="text" id="studentSearch" class="form-control" placeholder="Search students...">
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="studentTable">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <input type="checkbox" id="selectAll" />
+                                        </th>
+                                        <th>Student ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var student in allStudents)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox"
+                                                       class="student-checkbox"
+                                                       value="@student.StudentId"
+                                                @(assignedStudentIds.Contains(student.StudentId) ? "checked" : "") />
+                                            </td>
+                                            <td>@student.StudentId</td>
+                                            <td>@student.StudentName</td>
+                                            <td>@student.StudentEmail</td>
+                                            <td>@student.StudentPhone</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <a asp-action="ViewClass" class="btn btn-secondary">Back to List</a>
+                        <button onclick="saveAssignments()" class="btn btn-primary">Save Assignments</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section foot {
+    <script>
+        $(document).ready(function() {
+            // Select All functionality
+            $("#selectAll").change(function() {
+                $(".student-checkbox").prop('checked', $(this).prop('checked'));
+            });
+
+            // Student search functionality
+            $("#studentSearch").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#studentTable tbody tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+
+        function saveAssignments() {
+            var selectedStudents = [];
+            $('.student-checkbox:checked').each(function() {
+                selectedStudents.push($(this).val());
+            });
+
+            if (selectedStudents.length > 30) {
+                showToast('Maximum class size is 30 students.', 'error');
+                return;
+            }
+
+            $.ajax({
+                url: '/Admin/UpdateStudentAssignments',
+                type: 'POST',
+                data: {
+                    classId: '@classItem.ClassId',
+                    studentIds: selectedStudents
+                },
+                success: function(result) {
+                    if (result.success) {
+                        showToast(result.message, 'success');
+                        setTimeout(() => {
+                            window.location.href = '@Url.Action("ViewClass", "Admin")';
+                        }, 2000);
+                    } else {
+                        showToast(result.message, 'error');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error updating assignments:', error);
+                    showToast('Error updating assignments. Please try again.', 'error');
+                }
+            });
+        }
+
+        function showFlashMessage(message) {
+            const flashMessage = $('.info');
+            flashMessage.text(message).addClass('visible');
+
+            setTimeout(() => {
+                flashMessage.text('').removeClass('visible');
+            }, 5000);
+        }
+    </script>
+}

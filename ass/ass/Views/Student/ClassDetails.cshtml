@@ -1,0 +1,68 @@
+﻿@model List<Schedule>
+
+@{
+    Layout = "_StudentLayout";
+    ViewBag.Title = "Class Details";
+    var currentDate = DateTime.Now.Date; // Get the current date
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Class Name</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Description</th>
+            <th>Attendance</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count == 0)
+        {
+            <tr>
+                <td colspan="5">No classes scheduled for this date.</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var schedule in Model)
+            {
+                var studentAttendance = schedule.Attendances
+                .FirstOrDefault(a => a.StudentId == ViewBag.StudentId);
+
+                bool isPresent = studentAttendance != null && studentAttendance.IsPresent == "Present";
+                bool isToday = schedule.Date.Date == currentDate; // Check if schedule is for today
+
+                <tr>
+                    <td>@(schedule.Class?.ClassName ?? "No Class")</td>
+                    <td>@schedule.StartTime</td>
+                    <td>@schedule.EndTime</td>
+                    <td>@(schedule.Class?.ClassDescription ?? "No Description")</td>
+                    <td>
+                        @if (isPresent)
+                        {
+                            <button class="btn btn-success" disabled>
+                                Signed
+                            </button>
+                        }
+                        else if (!isToday)
+                        {
+                            <button class="btn btn-secondary" disabled>
+                                Not Available
+                            </button>
+                        }
+                        else
+                        {
+                            <form method="get" action="@Url.Action("TakeAttendance", "Student")" style="display:inline;">
+                                <input type="hidden" name="scheduleId" value="@schedule.ScheduleId" />
+                                <button type="submit" class="btn btn-primary">
+                                    Take
+                                </button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

@@ -1,0 +1,45 @@
+﻿@model UpdateProfileVM
+
+@{
+    Layout = "_StudentLayout";
+    ViewBag.Title = "Account | Update Profile";
+}
+
+<form class="form" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="validation-summary-errors"></div>
+
+    <label asp-for="StudentEmail">Email</label>
+    <b>@Model.StudentEmail</b>
+
+    <label asp-for="StudentName">Name</label>
+    <input asp-for="StudentName" autofocus>
+    <span asp-validation-for="StudentName" class="text-danger"></span>
+
+    <span></span>
+    <label asp-for="StudentPhone">Phone</label>
+    <input asp-for="StudentPhone">
+    <span asp-validation-for="StudentPhone" class="text-danger"></span>
+    <span></span>
+
+    <label asp-for="StudentGender">Gender</label>
+    <div class="radio-group">
+        <label><input asp-for="StudentGender" type="radio" value="F">Female</label>
+        <label><input asp-for="StudentGender" type="radio" value="M">Male</label>
+    </div>
+    <span asp-validation-for="StudentGender" class="text-danger"></span>
+    <span></span>
+
+    <label asp-for="Photo">Photo</label>
+    <label class="upload">
+        <small>Select Photo...</small>
+        <input asp-for="Photo" accept="image/jpeg,image/png" hidden>
+        <img src="/Students/@Model.StudentAvatarURL">
+    </label>
+    <span asp-validation-for="Photo" class="text-danger"></span>
+    <span></span>
+
+    <section>
+        <button class="btn btn-primary">Update</button>
+        <button class="btn btn-secondary" type="reset">Reset</button>
+    </section>
+</form>

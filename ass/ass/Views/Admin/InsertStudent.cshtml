@@ -1,0 +1,130 @@
+﻿@model StudentVM
+
+@{
+    ViewBag.Title = "Admin | Insert Student";
+}
+<div class="main-content">
+    <div class="container">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>Insert Student</h2>
+                </div>
+            </div>
+        </div>
+
+        <form id="studentForm" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger validation-summary"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="StudentId" class="form-label">Student ID</label>
+                <input asp-for="StudentId" class="form-control" readonly />
+                <span asp-validation-for="StudentId" class="text-danger validation-message"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="StudentName" class="form-label">Student Name</label>
+                <input asp-for="StudentName" class="form-control" />
+                <span asp-validation-for="StudentName" class="text-danger validation-message"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="StudentEmail" class="form-label">Student Email</label>
+                <input asp-for="StudentEmail" class="form-control" />
+                <span asp-validation-for="StudentEmail" class="text-danger validation-message"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="StudentPhone" class="form-label">Student Phone</label>
+                <input asp-for="StudentPhone" class="form-control" placeholder="01X-XXXXXXXX" />
+                <span asp-validation-for="StudentPhone" class="text-danger validation-message"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="StudentGender" class="form-label d-block">Gender</label>
+                <div class="form-check form-check-inline">
+                    <input asp-for="StudentGender" type="radio" value="F" class="form-check-input" id="genderF">
+                    <label class="form-check-label" for="genderF">Female</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input asp-for="StudentGender" type="radio" value="M" class="form-check-input" id="genderM">
+                    <label class="form-check-label" for="genderM">Male</label>
+                </div>
+                <span asp-validation-for="StudentGender" class="text-danger d-block validation-message"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="VerifyStatus" class="form-label">Verify Status</label>
+                <select asp-for="VerifyStatus" class="form-select">
+                    <option value="Pending">Pending</option>
+                    <option value="Verified">Verified</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+                <span asp-validation-for="VerifyStatus" class="text-danger validation-message"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="form-label">Profile Photo</label>
+                <div class="upload">
+                    <input type="file" name="StudentAvatarURL" class="form-control" accept="image/jpeg,image/png">
+                    <span class="text-danger validation-message" asp-validation-for="StudentAvatarURL"></span>
+                    <img src="/images/photo.jpg" class="img-thumbnail" style="max-width: 150px;">
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="StudentPassword" class="form-label">Password</label>
+                <div class="input-group">
+                    <input asp-for="StudentPassword" type="password" class="form-control" />
+                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                        <i class="bi bi-eye"></i>
+                    </button>
+                </div>
+                <span asp-validation-for="StudentPassword" class="text-danger validation-message"></span>
+                <div id="passwordRequirements" class="form-text">
+                    Password must contain:
+                    <ul class="mb-0">
+                        <li id="lengthCheck">✗ At least 8 characters</li>
+                        <li id="upperCheck">✗ One uppercase letter</li>
+                        <li id="lowerCheck">✗ One lowercase letter</li>
+                        <li id="numberCheck">✗ One number</li>
+                        <li id="specialCheck">✗ One special character</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group mt-4">
+                <a asp-action="ViewStudent" class="btn btn-secondary">Back to List</a>
+                <button type="submit" class="btn btn-primary me-2">Create Student</button>
+                <button type="reset" class="btn btn-secondary">Reset</button>
+            </div>
+        </form>
+    </div>
+</div>
+@section foot {
+    <script>
+            // Toggle password visibility
+            $('#togglePassword').click(function() {
+                const passwordInput = $('#StudentPassword');
+                const icon = $(this).find('i');
+
+                if (passwordInput.attr('type') === 'password') {
+                    passwordInput.attr('type', 'text');
+                    icon.removeClass('bi-eye').addClass('bi-eye-slash');
+                } else {
+                    passwordInput.attr('type', 'password');
+                    icon.removeClass('bi-eye-slash').addClass('bi-eye');
+                }
+            });
+
+            // Handle form reset
+            $('#studentForm button[type="reset"]').click(function() {
+                setTimeout(function() {
+                    $('.validation-message').empty();
+                    $('.is-invalid').removeClass('is-invalid');
+                    $('#passwordRequirements li').removeClass('valid');
+                }, 0);
+            });
+        });
+    </script>
+}

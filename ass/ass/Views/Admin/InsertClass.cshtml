@@ -1,0 +1,49 @@
+﻿@model ClassVM
+@{
+    ViewBag.Title = "Admin | Insert Class";
+}
+
+<div class="container">
+    <div class="table-title">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2>Insert Class</h2>
+            </div>
+        </div>
+    </div>
+        <form asp-action="InsertClass" method="post">
+                <div class="form-group mb-3">
+                    <label asp-for="ClassId" class="form-label">Class ID</label>
+                    <input asp-for="ClassId" class="form-control" readonly />
+                    <span asp-validation-for="ClassId" class="text-danger validation-message"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="ClassName" class="form-label">Class Name</label>
+                    <input asp-for="ClassName" class="form-control" />
+                    <span asp-validation-for="ClassName" class="text-danger validation-message"></span>
+                </div>
+
+                <div class="form-group mb-3s">
+                    <label asp-for="ClassDescription" class="form-label">Description</label>
+                    <textarea asp-for="ClassDescription" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="ClassDescription" class="text-danger validation-message"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Status">Status</label>
+                    <select asp-for="Status" class="form-control">
+                        <option value="">Select Status</option>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                        <option value="Full">Full</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger validation-message"></span>
+                </div>
+
+        <div class="form-group mt-4">
+            <a asp-action="ViewClass" class="btn btn-secondary">Back to List</a>
+            <button type="submit" class="btn btn-primary">Create Class</button>
+        </div>
+    </form>
+</div>

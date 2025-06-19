@@ -1,0 +1,130 @@
+﻿@model TutorUpdateVM
+@{
+    ViewBag.Title = "Admin | Tutor Details";
+}
+<div class="container">
+    <div class="table-title">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2>Tutor Detail</h2>
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label>Tutor ID</label>
+            <input value="@Model.TutorId" class="form-control" disabled />
+        </div>
+
+        <div class="form-group">
+            <label>Tutor Name</label>
+            <input value="@Model.TutorName" class="form-control" disabled />
+        </div>
+
+        <div class="form-group">
+            <label>Email</label>
+            <input value="@Model.TutorEmail" class="form-control" disabled />
+        </div>
+
+        <div class="form-group">
+            <label>Phone</label>
+            <input value="@Model.TutorPhone" class="form-control" disabled />
+        </div>
+
+        <div class="form-group">
+            <br>
+            <label>Gender</label>
+            <div>
+                <label>
+                    <input type="radio" disabled
+                    @(Model.TutorGender == "F" ? "checked" : "") /> Female
+                </label>
+                <label>
+                    <input type="radio" disabled
+                    @(Model.TutorGender == "M" ? "checked" : "") /> Male
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Profile Photo</label>
+            <div>
+                <img src="/Tutors/@Model.PhotoURL#" alt="Tutor Photo"
+                        class="img-thumbnail" style="max-width: 200px;" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <div class="input-group">
+                <input id="passwordField" value="@Model.TutorPassword" type="password" class="form-control" disabled />
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-outline-secondary" id="togglePassword">
+                        <i class="material-icons" id="passwordIcon">visibility</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group mt-4">
+            <a href="@Url.Action("ViewTutor")" class="btn btn-secondary">Back</a>
+        </div>
+    </div>
+</div>
+
+@section foot {
+    <script>
+        $(document).ready(function() {
+            const togglePassword = document.querySelector('#togglePassword');
+            const passwordField = document.querySelector('#passwordField');
+            const passwordIcon = document.querySelector('#passwordIcon');
+
+            togglePassword.addEventListener('click', function() {
+                // Toggle the password visibility
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+
+                // Toggle the icon
+                if (type === 'password') {
+                    passwordIcon.textContent = 'visibility';
+                } else {
+                    passwordIcon.textContent = 'visibility_off';
+                }
+            });
+        });
+    </script>
+}
+
+@section head {
+    <style>
+        .form-control:disabled {
+            background-color: #f8f9fa;
+            opacity: 1;
+            cursor: not-allowed;
+        }
+
+        .img-thumbnail {
+            border: 1px solid #dee2e6;
+            padding: 0.25rem;
+            background-color: #fff;
+            border-radius: 0.25rem;
+            max-width: 200px;
+            height: auto;
+        }
+
+        .input-group .btn-outline-secondary {
+            border-color: #ced4da;
+        }
+
+            .input-group .btn-outline-secondary:hover {
+                background-color: #e9ecef;
+            }
+
+        .input-group .material-icons {
+            font-size: 18px;
+            line-height: 1;
+            color: #6c757d;
+        }
+
+    </style>
+}

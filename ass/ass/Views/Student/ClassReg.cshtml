@@ -1,0 +1,54 @@
+﻿@model List<ClassRegistrationViewModel>
+
+@{
+    Layout = "_StudentLayout";
+    ViewBag.Title = "Class Registration";
+}
+
+<form method="post" asp-action="ClassReg">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Class Name</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="4">No available classes at the moment.</td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var classItem in Model)
+                {
+                    <tr>
+                        <td>@classItem.ClassName</td>
+                        <td>@classItem.ClassDescription</td>
+                        <td>@classItem.Status</td>
+                        <td>
+                            @if (classItem.IsSelected)
+                            {
+                                <!-- Drop button for registered classes -->
+                                <button type="submit" name="dropClassId" value="@classItem.ClassId" class="btn btn-secondary">
+                                    Drop
+                                </button>
+                            }
+                            else
+                            {
+                                <!-- Register button for available classes -->
+                                <button type="submit" name="classId" value="@classItem.ClassId" class="btn btn-primary">
+                                    Register
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</form>

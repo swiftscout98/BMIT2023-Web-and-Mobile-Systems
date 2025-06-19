@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Attendance>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th onclick="sortData('date')">
+                Date
+                @if (ViewBag.Sort == "date")
+                {
+                    <span class="@(ViewBag.Dir == "asc" ? "asc" : "desc")"></span>
+                }
+            </th>
+            <th onclick="sortData('student')">
+                Student
+                @if (ViewBag.Sort == "student")
+                {
+                    <span class="@(ViewBag.Dir == "asc" ? "asc" : "desc")"></span>
+                }
+            </th>
+            <th onclick="sortData('status')">
+                Status
+                @if (ViewBag.Sort == "status")
+                {
+                    <span class="@(ViewBag.Dir == "asc" ? "asc" : "desc")"></span>
+                }
+            </th>
+            <th>Class</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var attendance in Model)
+        {
+            <tr>
+                <td>@attendance.Date.ToString("dd/MM/yyyy")</td>
+                <td>@(attendance.Student?.StudentName ?? "N/A")</td>
+                <td>
+                    <span class="badge @(attendance.Status == "Present" ? "bg-success" : "bg-danger")">
+                        @attendance.Status
+                    </span>
+                </td>
+                <td>@(attendance.Schedule?.Class?.ClassName ?? "N/A")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="clearfix">
+    <div class="hint-text">
+        Showing @Model.Count() Out Of @ViewBag.TotalItems Entries
+    </div>
+    <ul class="pagination">
+        <!-- First Button -->
+        <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+            <a href="javascript:void(0)" onclick="@(ViewBag.CurrentPage > 1 ? "loadData(1)" : "return false;")" class="page-link">First</a>
+        </li>
+
+        <!-- Previous Button -->
+        <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+            <a href="javascript:void(0)" onclick="@(ViewBag.CurrentPage > 1 ? $"loadData({ViewBag.CurrentPage - 1})" : "return false;")" class="page-link">Previous</a>
+        </li>
+
+        <!-- Page Numbers -->
+        @for (var i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                <a href="javascript:void(0)" onclick="loadData(@i)" class="page-link">@i</a>
+            </li>
+        }
+
+        <!-- Next Button -->
+        <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+            <a href="javascript:void(0)" onclick="@(ViewBag.CurrentPage < ViewBag.TotalPages ? $"loadData({ViewBag.CurrentPage + 1})" : "return false;")" class="page-link">Next</a>
+        </li>
+
+        <!-- Last Button -->
+        <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+            <a href="javascript:void(0)" onclick="@(ViewBag.CurrentPage < ViewBag.TotalPages ? $"loadData({ViewBag.TotalPages})" : "return false;")" class="page-link">Last</a>
+        </li>
+    </ul>
+</div>

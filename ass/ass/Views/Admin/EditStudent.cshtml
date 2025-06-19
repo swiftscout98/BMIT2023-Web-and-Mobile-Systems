@@ -1,0 +1,208 @@
+﻿@model StudentUpdateVM
+
+@{
+    ViewBag.Title = "Admin | Edit Student";
+}
+<div class="main-content">
+    <div class="container">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>Edit Student</h2>
+                </div>
+            </div>
+        </div>
+
+        <form id="studentForm" asp-action="EditStudent" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger validation-summary"></div>
+
+            <input type="hidden" asp-for="StudentId" />
+            <input type="hidden" asp-for="PhotoURL" />
+
+            <div class="form-group">
+                <label asp-for="StudentId">Student ID</label>
+                <input value="@Model.StudentId" class="form-control" disabled />
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="StudentName" class="form-label">Student Name</label>
+                <input asp-for="StudentName" class="form-control" />
+                <span asp-validation-for="StudentName" class="text-danger validation-message"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="StudentEmail" class="form-label">Student Email</label>
+                <input asp-for="StudentEmail" class="form-control" />
+                <span asp-validation-for="StudentEmail" class="text-danger validation-message"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="StudentPhone" class="form-label">Student Phone</label>
+                <input asp-for="StudentPhone" class="form-control" placeholder="01X-XXXXXXXX" />
+                <span asp-validation-for="StudentPhone" class="text-danger validation-message"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="StudentGender" class="form-label d-block">Gender</label>
+                <div class="form-check form-check-inline">
+                    <input asp-for="StudentGender" type="radio" value="F" class="form-check-input" id="genderF">
+                    <label class="form-check-label" for="genderF">Female</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input asp-for="StudentGender" type="radio" value="M" class="form-check-input" id="genderM">
+                    <label class="form-check-label" for="genderM">Male</label>
+                </div>
+                <span asp-validation-for="StudentGender" class="text-danger d-block validation-message"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="VerifyStatus" class="form-label">Verify Status</label>
+                <select asp-for="VerifyStatus" class="form-select">
+                    <option value="Pending">Pending</option>
+                    <option value="Verified">Verified</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+                <span asp-validation-for="VerifyStatus" class="text-danger validation-message"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="form-label">Profile Photo</label>
+                <div class="upload">
+                    <input type="file" name="Photo" class="form-control" accept="image/jpeg,image/png">
+                    <span class="text-danger validation-message" asp-validation-for="Photo"></span>
+                    <img src="/Students/@Model.PhotoURL" class="img-thumbnail mt-2">
+                </div>
+            </div>
+        
+            <div class="form-group mb-3">
+                <label asp-for="StudentPassword" class="form-label">Password</label>
+                <div class="input-group">
+                    <input asp-for="StudentPassword" value="@Model.StudentPassword"  type="password" class="form-control" />
+                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                        <i class="bi bi-eye"></i>
+                    </button>
+                </div>
+                <span asp-validation-for="StudentPassword" class="text-danger validation-message"></span>
+                <div id="passwordRequirements" class="form-text">
+                    Password must contain:
+                    <ul class="mb-0">
+                        <li id="lengthCheck">✗ At least 8 characters</li>
+                        <li id="upperCheck">✗ One uppercase letter</li>
+                        <li id="lowerCheck">✗ One lowercase letter</li>
+                        <li id="numberCheck">✗ One number</li>
+                        <li id="specialCheck">✗ One special character</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-primary me-2">Update</button>
+                <a href="@Url.Action("ViewStudent")" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+@section foot {
+    <script>
+        $(document).ready(function() {
+            // Initialize jQuery validation
+            $("#studentForm").validate({
+                errorElement: 'span',
+                errorClass: 'text-danger validation-message',
+                rules: {
+                    StudentName: {
+                        required: true,
+                        maxlength: 50,
+                        pattern: /^[A-Za-z\s]+$/
+                    },
+                    StudentEmail: {
+                        required: true,
+                        email: true,
+                        maxlength: 50
+                    },
+                    StudentPhone: {
+                        required: true,
+                        pattern: /^01\d-\d{8}$/
+                    },
+                    StudentGender: {
+                        required: true
+                    },
+                    StudentPassword: {
+                        minlength: 8,
+                        pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/
+                    },
+                    Photo: {
+                        extension: "jpg|jpeg|png"
+                    }
+                },
+                messages: {
+                    StudentName: {
+                        required: "Please enter student name",
+                        maxlength: "Name cannot exceed 50 characters",
+                        pattern: "Name can only contain letters and spaces"
+                    },
+                    StudentEmail: {
+                        required: "Please enter email address",
+                        email: "Please enter a valid email address",
+                        maxlength: "Email cannot exceed 50 characters"
+                    },
+                    StudentPhone: {
+                        required: "Please enter phone number",
+                        pattern: "Please enter phone number in format: 01X-XXXXXXXX"
+                    },
+                    StudentGender: {
+                        required: "Please select gender"
+                    },
+                    StudentPassword: {
+                        minlength: "Password must be at least 8 characters",
+                        pattern: "Password must meet all requirements"
+                    },
+                    Photo: {
+                        extension: "Only JPG and PNG files are allowed"
+                    }
+                },
+                errorPlacement: function(error, element) {
+                    if (element.attr("type") == "radio") {
+                        error.insertAfter(element.parent().parent());
+                    } else if (element.parent('.input-group').length) {
+                        error.insertAfter(element.parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
+                highlight: function(element) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function(element) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+
+            // Real-time password validation
+            $('#StudentPassword').on('input', function() {
+                const password = $(this).val();
+
+                // Check each requirement
+                $('#lengthCheck').toggleClass('valid', password.length >= 8);
+                $('#upperCheck').toggleClass('valid', /[A-Z]/.test(password));
+                $('#lowerCheck').toggleClass('valid', /[a-z]/.test(password));
+                $('#numberCheck').toggleClass('valid', /\d/.test(password));
+                $('#specialCheck').toggleClass('valid', /[^\da-zA-Z]/.test(password));
+            });
+
+            // Toggle password visibility
+            $('#togglePassword').click(function() {
+                const passwordInput = $('#StudentPassword');
+                const icon = $(this).find('i');
+
+                if (passwordInput.attr('type') === 'password') {
+                    passwordInput.attr('type', 'text');
+                    icon.removeClass('bi-eye').addClass('bi-eye-slash');
+                } else {
+                    passwordInput.attr('type', 'password');
+                    icon.removeClass('bi-eye-slash').addClass('bi-eye');
+                }
+            });
+        });
+    </script>
+}

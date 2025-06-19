@@ -1,0 +1,138 @@
+﻿@model ScheduleVM
+@{
+    ViewBag.Title = "Admin | Edit Schedule";
+}
+
+<div class="main-content">
+    <div class="row">
+        <div class="col-sm-12">
+            <form asp-action="EditSchedule" method="post">
+                <input type="hidden" asp-for="ScheduleId" />
+                <input type="hidden" asp-for="AttendanceCode" />
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label asp-for="ClassId" class="form-label">Class</label>
+                            <select asp-for="ClassId" class="form-control" required>
+                                <option value="">Select Class</option>
+                                @foreach (var cls in ViewBag.Classes)
+                                {
+                                    <option value="@cls.ClassId">@cls.ClassName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="ClassId" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="AttendanceCode" class="form-label">Attendance Code</label>
+                            <input id="AttendanceCode" type="text" value="@Model.AttendanceCode" class="form-control" readonly />
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Date" class="form-label">Date</label>
+                            <input asp-for="Date" type="date" class="form-control" required />
+                            <span asp-validation-for="Date" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Time" class="form-label">Time</label>
+                            <input asp-for="Time" type="time" class="form-control" required
+                                   onchange="updateStartTime(this.value)" />
+                            <span asp-validation-for="Time" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="StartTime" class="form-label">Start Time</label>
+                            <input asp-for="StartTime" type="time" class="form-control" readonly />
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="EndTime" class="form-label">End Time</label>
+                            <input asp-for="EndTime" type="time" class="form-control" required />
+                            <span asp-validation-for="EndTime" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label>Subjects and Tutors</label>
+                            <div id="subjectsContainer">
+                                @foreach (var subject in ViewBag.Subjects)
+                                {
+                                    var isSelected = Model.SelectedSubjectIds != null &&
+                                    Model.SelectedSubjectIds.Contains(subject.SubjectId);
+                                    var selectedTutorId = "";
+                                    if (Model.SubjectTutorAssignments != null &&
+                                    Model.SubjectTutorAssignments.ContainsKey(subject.SubjectId))
+                                    {
+                                        selectedTutorId = Model.SubjectTutorAssignments[subject.SubjectId];
+                                    }
+
+                                    <div class="subject-selection mb-2">
+                                        <div class="form-check">
+                                            <input type="checkbox"
+                                                   name="SelectedSubjectIds"
+                                                   value="@subject.SubjectId"
+                                                   class="form-check-input subject-checkbox"
+                                            @(isSelected ? "checked" : "") />
+                                            <label class="form-check-label">@subject.SubjectName</label>
+                                        </div>
+                                        <div class="tutor-selection mt-2 @(!isSelected ? "d-none" : "")">
+                                            <select name="SubjectTutorAssignments[@subject.SubjectId]"
+                                                    class="form-control tutor-select"
+                                            @(!isSelected ? "disabled" : "")>
+                                                <option value="">Select Tutor</option>
+                                                @foreach (var tutor in subject.Tutors)
+                                                {
+                                                    <option value="@tutor.TutorId"
+                                                            selected="@(selectedTutorId == tutor.TutorId)">
+                                                        @tutor.TutorName
+                                                    </option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mt-3">
+                    <a asp-action="ViewSchedule" class="btn btn-secondary">Back to List</a>
+                    <button type="submit" class="btn btn-primary">Update Schedule</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section foot {
+    <script>
+        function updateStartTime(time) {
+            document.querySelector('input[asp-for="StartTime"]').value = time;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const subjectCheckboxes = document.querySelectorAll('.subject-checkbox');
+
+            subjectCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const tutorSelect = this.closest('.subject-selection')
+                        .querySelector('.tutor-selection');
+                    const select = tutorSelect.querySelector('select');
+
+                    if (this.checked) {
+                        tutorSelect.classList.remove('d-none');
+                        select.disabled = false;
+                        select.required = true;
+                    } else {
+                        tutorSelect.classList.add('d-none');
+                        select.disabled = true;
+                        select.required = false;
+                        select.value = '';
+                    }
+                });
+            });
+        });
+    </script>
+}

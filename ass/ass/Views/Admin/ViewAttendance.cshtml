@@ -1,0 +1,113 @@
+﻿@model IEnumerable<Attendance>
+@{
+    ViewBag.Title = "Admin | View Attendance";
+}
+
+<div class="main-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <h2>Attendance Records</h2>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <input type="date" id="startDate" class="form-control" placeholder="Start Date">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="date" id="endDate" class="form-control" placeholder="End Date">
+                                </div>
+                                <div class="col-md-2">
+                                    <select id="statusFilter" class="form-control">
+                                        <option value="">All Status</option>
+                                        <option value="Present">Present</option>
+                                        <option value="Absent">Absent</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" id="searchInput" class="form-control" placeholder="Search student...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="attendanceTableContainer">
+                    @await Html.PartialAsync("_AttendanceTable", Model)
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <a href="@Url.Action("AttendanceReport")" class="btn btn-info">View Report</a>
+                <a href="@Url.Action("ExportAttendanceReport")" class="btn btn-success">Export Report</a>
+                <a href="@Url.Action("ExportAttendanceReportPDF")" class="btn btn-success">Export PDF</a>
+                <a href="@Url.Action("ExportAttendanceReportCSV")" class="btn btn-success">Export CSV</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section foot {
+    <script>
+        let currentPage = 1;
+        let currentSort = '';
+        let currentDir = '';
+        let searchTimer;
+
+        function loadData(page = 1, sort = currentSort, dir = currentDir) {
+            let searchTerm = $('#searchInput').val();
+            let startDate = $('#startDate').val();
+            let endDate = $('#endDate').val();
+            let status = $('#statusFilter').val();
+
+            $.ajax({
+                url: '/Admin/GetAttendanceData',
+                data: {
+                    page: page,
+                    sort: sort,
+                    dir: dir,
+                    searchTerm: searchTerm,
+                    startDate: startDate,
+                    endDate: endDate,
+                    status: status
+                },
+                success: function(result) {
+                    $('#attendanceTableContainer').html(result);
+                    currentPage = page;
+                    currentSort = sort;
+                    currentDir = dir;
+                }
+            });
+        }
+
+        // Event handlers
+        $('#searchInput, #startDate, #endDate, #statusFilter').on('change', function() {
+            currentPage = 1;
+            loadData();
+        });
+
+        $('#searchInput').on('input', function() {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(() => {
+                currentPage = 1;
+                loadData();
+            }, 500);
+        });
+
+        function sortData(column) {
+            let dir = 'asc';
+            if (currentSort === column) {
+                dir = currentDir === 'asc' ? 'desc' : 'asc';
+            }
+            loadData(1, column, dir);
+        }
+
+        // Initialize
+        $(document).ready(function() {
+            loadData();
+        });
+    </script>
+}

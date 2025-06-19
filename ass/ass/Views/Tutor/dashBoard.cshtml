@@ -1,0 +1,225 @@
+﻿@model IEnumerable<Class>
+@{
+    ViewBag.Title = "Tutor | Dashboard";
+    var tutorId = ViewBag.TutorId;
+    var todayClasses = ViewBag.TodayClasses as List<TodayClassViewModel>;
+    @Html.AntiForgeryToken()
+}
+
+<style>
+    /* Base styles for the table */
+    table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    }
+
+    /* Header styles */
+    th {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+    text-transform: uppercase;
+    }
+
+    /* Row styles */
+    td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    }
+
+    /* Zebra striping for rows */
+    tr:nth-child(even) {
+    background-color: #f9f9f9;
+    }
+
+    /* Hover effect for rows */
+    tr:hover {
+    background-color: #f1f1f1;
+    }
+
+    .button {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 14px;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    }
+
+</style>
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Tutor Dashboard</h1>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("dashBoard", "Tutor")">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+    </ol>
+</div>
+
+<div class="container-fluid" id="container-wrapper">
+    <!-- Cards Row -->
+    <div class="row mb-3">
+        <!-- Students Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">STUDENTS</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Total students: @ViewBag.StudentCount</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="material-icons text-primary">person</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Classes Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">CLASSES</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Total Classes: @ViewBag.ClassCount</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="material-icons text-success">class</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Today's Classes Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">TODAY'S CLASSES</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                @(todayClasses?.Count() ?? 0) Classes
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="material-icons text-info">today</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Today's Classes Table -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Today's Classes</h6>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>CLASS</th>
+                                <th>SUBJECT</th>
+                                <th>TIME</th>
+                                <th>STUDENTS</th>
+                                <th>ATTENDANCE CODE</th>
+                                <th>DETAIL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (todayClasses != null && todayClasses.Any())
+                            {
+                                foreach (var cls in todayClasses)
+                                {
+                                    <tr>
+                                        <td>@cls.ClassName</td>
+                                        <td>
+                                            @foreach (var subject in cls.Subjects)
+                                            {
+                                                <span class="badge badge-primary">@subject.SubjectName</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (cls.Time.Hours < 12)
+                                            {
+                                                @($"{cls.Time:hh\\:mm} AM")
+                                            }
+                                            else
+                                            {
+                                                TimeSpan pmTime = cls.Time;
+                                                if (cls.Time.Hours > 12)
+                                                {
+                                                    pmTime = TimeSpan.FromHours(cls.Time.Hours - 12).Add(TimeSpan.FromMinutes(cls.Time.Minutes));
+                                                }
+                                                @($"{pmTime:hh\\:mm} PM")
+                                            }
+                                        </td>
+                                        <td>@cls.StudentCount</td>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(cls.AttendanceCode))
+                                            {
+                                                <span class="badge badge-success">@cls.AttendanceCode</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-warning">No code available</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("ClassDetail", "Tutor", new { className = cls.ClassName })"
+                                               class="btn btn-sm btn-primary">
+                                                <i class="material-icons">visibility</i> View
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="6" class="text-center">No classes scheduled for today.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Campus Location -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h6 class="m-0 font-weight-bold text-primary">Campus Location</h6>
+                        </div>
+                        <div class="card-body">
+                            <div style="height: 350px;">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3983.7371225074246!2d101.72742147471447!3d3.216843996991303!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc3843bfb6a031%3A0x2dc5e067aae3ab84!2sTunku%20Abdul%20Rahman%20University%20of%20Management%20and%20Technology%20(TAR%20UMT)%20KL%20Main%20Campus!5e0!3m2!1sen!2smy!4v1703665175118!5m2!1sen!2smy"
+                                        width="100%"
+                                        height="100%"
+                                        style="border:0;"
+                                        allowfullscreen=""
+                                        loading="lazy"
+                                        referrerpolicy="no-referrer-when-downgrade">
+                                </iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

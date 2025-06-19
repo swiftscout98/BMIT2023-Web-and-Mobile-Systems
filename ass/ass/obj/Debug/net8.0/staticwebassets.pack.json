@@ -1,0 +1,329 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Admins\\1a24793854af42e994d4cc7bb10d1246.jpg",
+      "PackagePath": "staticwebassets\\Admins\\1a24793854af42e994d4cc7bb10d1246.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\01b63835bcae40d2a509d5257402c5fa.jpg",
+      "PackagePath": "staticwebassets\\Students\\01b63835bcae40d2a509d5257402c5fa.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\0442a0097bf04aa7996ba52fdf68601c.jpg",
+      "PackagePath": "staticwebassets\\Students\\0442a0097bf04aa7996ba52fdf68601c.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\0c762385f4a84e81bdc3f754d67d528c.jpg",
+      "PackagePath": "staticwebassets\\Students\\0c762385f4a84e81bdc3f754d67d528c.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\229f2aa6db5d4a89bdb82af8073810a9.jpg",
+      "PackagePath": "staticwebassets\\Students\\229f2aa6db5d4a89bdb82af8073810a9.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\26da6c1e690249cf8d6444eed233ddf1.jpg",
+      "PackagePath": "staticwebassets\\Students\\26da6c1e690249cf8d6444eed233ddf1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\2dd88b736c3347cfbec172f32b139454.jpg",
+      "PackagePath": "staticwebassets\\Students\\2dd88b736c3347cfbec172f32b139454.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\33d11170f4e14ddc9c3af96a564f5ada.jpg",
+      "PackagePath": "staticwebassets\\Students\\33d11170f4e14ddc9c3af96a564f5ada.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\3752fce6396a4eb6b42234f9c3c6b94c.jpg",
+      "PackagePath": "staticwebassets\\Students\\3752fce6396a4eb6b42234f9c3c6b94c.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\39144224be3240338252ebc1027c0263.jpg",
+      "PackagePath": "staticwebassets\\Students\\39144224be3240338252ebc1027c0263.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\39a60e6d7c3f43109e838eedf1921739.jpg",
+      "PackagePath": "staticwebassets\\Students\\39a60e6d7c3f43109e838eedf1921739.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\5e432ade24044a74bc2a91da5daa8788.jpg",
+      "PackagePath": "staticwebassets\\Students\\5e432ade24044a74bc2a91da5daa8788.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\6edce3ae4e224bd2ae263cf6e6126946.jpg",
+      "PackagePath": "staticwebassets\\Students\\6edce3ae4e224bd2ae263cf6e6126946.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\84534087a50a4a2c81dd7dc77b006f2f.jpg",
+      "PackagePath": "staticwebassets\\Students\\84534087a50a4a2c81dd7dc77b006f2f.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\845e6684984341ceae7bd83ded6b55f1.jpg",
+      "PackagePath": "staticwebassets\\Students\\845e6684984341ceae7bd83ded6b55f1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\9982cf1445204764af9b8f852c0eed4b.jpg",
+      "PackagePath": "staticwebassets\\Students\\9982cf1445204764af9b8f852c0eed4b.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\a27498bb8493482f8a4596c85bca020e.jpg",
+      "PackagePath": "staticwebassets\\Students\\a27498bb8493482f8a4596c85bca020e.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\a4ac2cb2681b4e3d9ea147c21a58f504.jpg",
+      "PackagePath": "staticwebassets\\Students\\a4ac2cb2681b4e3d9ea147c21a58f504.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\b5e31a880b4647758a47e1701b4f374a.jpg",
+      "PackagePath": "staticwebassets\\Students\\b5e31a880b4647758a47e1701b4f374a.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\c61ff71b5b614598a829abe6d9dfef25.jpg",
+      "PackagePath": "staticwebassets\\Students\\c61ff71b5b614598a829abe6d9dfef25.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\d16f6e58e2b849858c2f774eb30de1e7.jpg",
+      "PackagePath": "staticwebassets\\Students\\d16f6e58e2b849858c2f774eb30de1e7.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\ddfe2b54d47b40cbbcc05fdbda215108.jpg",
+      "PackagePath": "staticwebassets\\Students\\ddfe2b54d47b40cbbcc05fdbda215108.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\f39c5c3152264b13af84238b2dd62391.jpg",
+      "PackagePath": "staticwebassets\\Students\\f39c5c3152264b13af84238b2dd62391.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Students\\fcb6361dbe184441b59b906a62866958.jpg",
+      "PackagePath": "staticwebassets\\Students\\fcb6361dbe184441b59b906a62866958.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Tutors\\18f26211292a4c268712da0a76067bb1.jpg",
+      "PackagePath": "staticwebassets\\Tutors\\18f26211292a4c268712da0a76067bb1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Tutors\\3d90e00950e04292b062ac6cda32a5c1.jpg",
+      "PackagePath": "staticwebassets\\Tutors\\3d90e00950e04292b062ac6cda32a5c1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Tutors\\75e7f7ab9a76494c99682d6bbf93aa8d.jpg",
+      "PackagePath": "staticwebassets\\Tutors\\75e7f7ab9a76494c99682d6bbf93aa8d.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Tutors\\76626053c637454abf95c3fa4287bfae.jpg",
+      "PackagePath": "staticwebassets\\Tutors\\76626053c637454abf95c3fa4287bfae.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Tutors\\8d54ae2ba7464e5ea7cebe1a7b9865f9.jpg",
+      "PackagePath": "staticwebassets\\Tutors\\8d54ae2ba7464e5ea7cebe1a7b9865f9.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\Tutors\\e0bf0476e1d64b5a9a229a4590363c61.jpg",
+      "PackagePath": "staticwebassets\\Tutors\\e0bf0476e1d64b5a9a229a4590363c61.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\css\\2app.css",
+      "PackagePath": "staticwebassets\\css\\2app.css"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\css\\AdminBootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\AdminBootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\css\\AdminCustom.css",
+      "PackagePath": "staticwebassets\\css\\AdminCustom.css"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\css\\all.min.css",
+      "PackagePath": "staticwebassets\\css\\all.min.css"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\css\\app.css",
+      "PackagePath": "staticwebassets\\css\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\css\\dark-mode.css",
+      "PackagePath": "staticwebassets\\css\\dark-mode.css"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\css\\pager.css",
+      "PackagePath": "staticwebassets\\css\\pager.css"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\css\\ruang-admin.min.css",
+      "PackagePath": "staticwebassets\\css\\ruang-admin.min.css"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\css\\toast.css",
+      "PackagePath": "staticwebassets\\css\\toast.css"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\css\\validation.css",
+      "PackagePath": "staticwebassets\\css\\validation.css"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\images\\A1.png",
+      "PackagePath": "staticwebassets\\images\\A1.png"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\images\\A2.png",
+      "PackagePath": "staticwebassets\\images\\A2.png"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\images\\A3.png",
+      "PackagePath": "staticwebassets\\images\\A3.png"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\images\\default-avatar.png",
+      "PackagePath": "staticwebassets\\images\\default-avatar.png"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\images\\favicon.png",
+      "PackagePath": "staticwebassets\\images\\favicon.png"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\images\\loader.gif",
+      "PackagePath": "staticwebassets\\images\\loader.gif"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\images\\logo.png",
+      "PackagePath": "staticwebassets\\images\\logo.png"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\images\\photo.jpg",
+      "PackagePath": "staticwebassets\\images\\photo.jpg"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\images\\student.png",
+      "PackagePath": "staticwebassets\\images\\student.png"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\js\\app.js",
+      "PackagePath": "staticwebassets\\js\\app.js"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\js\\baseTable.js",
+      "PackagePath": "staticwebassets\\js\\baseTable.js"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\js\\chart-area-demo.js",
+      "PackagePath": "staticwebassets\\js\\chart-area-demo.js"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\js\\jquery-3.3.1.min.js",
+      "PackagePath": "staticwebassets\\js\\jquery-3.3.1.min.js"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\js\\jquery-3.3.1.slim.min.js",
+      "PackagePath": "staticwebassets\\js\\jquery-3.3.1.slim.min.js"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\js\\jquery.easing.min.js",
+      "PackagePath": "staticwebassets\\js\\jquery.easing.min.js"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\js\\jquery.min.js",
+      "PackagePath": "staticwebassets\\js\\jquery.min.js"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\js\\jquery.unobtrusive-ajax.min.js",
+      "PackagePath": "staticwebassets\\js\\jquery.unobtrusive-ajax.min.js"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\js\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\js\\jquery.validate.min.js"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\js\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\js\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\js\\popper.min.js",
+      "PackagePath": "staticwebassets\\js\\popper.min.js"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\js\\ruang-admin.min.js",
+      "PackagePath": "staticwebassets\\js\\ruang-admin.min.js"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\js\\table\\classTable.js",
+      "PackagePath": "staticwebassets\\js\\table\\classTable.js"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\js\\table\\scheduleTable.js",
+      "PackagePath": "staticwebassets\\js\\table\\scheduleTable.js"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\js\\table\\studentTable.js",
+      "PackagePath": "staticwebassets\\js\\table\\studentTable.js"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\js\\table\\subjectTable.js",
+      "PackagePath": "staticwebassets\\js\\table\\subjectTable.js"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\js\\table\\tutorTable.js",
+      "PackagePath": "staticwebassets\\js\\table\\tutorTable.js"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\js\\toast.js",
+      "PackagePath": "staticwebassets\\js\\toast.js"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\sounds\\2logout.mp3",
+      "PackagePath": "staticwebassets\\sounds\\2logout.mp3"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\sounds\\admin-login.mp3",
+      "PackagePath": "staticwebassets\\sounds\\admin-login.mp3"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\sounds\\logout.mp3",
+      "PackagePath": "staticwebassets\\sounds\\logout.mp3"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\sounds\\student-login.mp3",
+      "PackagePath": "staticwebassets\\sounds\\student-login.mp3"
+    },
+    {
+      "Id": "C:\\Users\\swift\\OneDrive\\桌面\\Tuition Attendance Tracking System\\ass\\ass\\wwwroot\\sounds\\tutor-login.mp3",
+      "PackagePath": "staticwebassets\\sounds\\tutor-login.mp3"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.ass.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.ass.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.ass.props",
+      "PackagePath": "build\\ass.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.ass.props",
+      "PackagePath": "buildMultiTargeting\\ass.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.ass.props",
+      "PackagePath": "buildTransitive\\ass.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

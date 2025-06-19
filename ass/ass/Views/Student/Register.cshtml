@@ -1,0 +1,210 @@
+﻿@model RegisterVM
+
+@{
+    Layout = "_StudentLayout";
+    ViewBag.Title = "Register";
+}
+
+<div class="container">
+    <form method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly"></div>
+
+        <div class="form-group">
+            <input type="hidden" asp-for="StudentId" class="form-control" readonly />
+            <span asp-validation-for="StudentId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="StudentName">Name</label>
+            <input asp-for="StudentName" class="form-control" />
+            <span asp-validation-for="StudentName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="StudentEmail">Email</label>
+            <input asp-for="StudentEmail" class="form-control" />
+            <span asp-validation-for="StudentEmail" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="StudentPhone">Phone</label>
+            <input asp-for="StudentPhone" class="form-control" />
+            <span asp-validation-for="StudentPhone" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <br>
+            <label asp-for="StudentGender">Gender</label>
+            <div>
+                <label><input asp-for="StudentGender" type="radio" value="F">Female</label>
+                <label><input asp-for="StudentGender" type="radio" value="M">Male</label>
+            </div>
+            <span asp-validation-for="StudentGender" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Profile Photo</label>
+            <div class="upload">
+                <input type="file" asp-for="StudentAvatarURL" name="StudentAvatarURL" class="form-control" accept="image/jpeg,image/png">
+                <span class="text-danger" asp-validation-for="StudentAvatarURL"></span>
+                <img src="/images/photo.jpg">
+            </div>
+        </div>
+
+        <div class="form-group hidden">
+            <label asp-for="VerifyStatus">Verify Status</label>
+            <select asp-for="VerifyStatus" class="form-control">
+                <option value="Pending">Pending</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="StudentPassword">Password</label>
+            <input asp-for="StudentPassword" type="password" class="form-control" />
+            <span asp-validation-for="StudentPassword" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ConfirmPassword">Confirm Password</label>
+            <input asp-for="ConfirmPassword" type="password" class="form-control" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+
+        <section>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="reset" class="btn btn-primary">Reset</button>
+        </section>
+    </form>
+</div>
+
+@section foot {
+    <script>
+        // Enable hidden file validation
+        $.validator.setDefaults({ ignore: '' });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(event) {
+                let isValid = true;
+                const inputs = form.querySelectorAll('input, select');
+                inputs.forEach(input => {
+                    if (!input.checkValidity()) {
+                        isValid = false;
+                        input.classList.add('is-invalid');
+                    } else {
+                        input.classList.remove('is-invalid');
+                    }
+                });
+
+                if (!isValid) {
+                    event.preventDefault();
+                    alert('Please fill out all required fields correctly.');
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.querySelector('input[type="file"]');
+            const imagePreview = document.querySelector('.upload img');
+
+            fileInput.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        imagePreview.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
+}
+
+<style>
+    .container {
+        max-width: 900px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        padding: 12px;
+        font-size: 1rem;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+    .text-danger {
+        font-size: 0.875rem;
+        color: #dc3545;
+        margin-top: 5px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .btn {
+        font-size: 1rem;
+        padding: 12px 24px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        color: white;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    .btn-reset {
+        background-color: #6c757d;
+        border: none;
+        color: white;
+    }
+
+        .btn-reset:hover {
+            background-color: #5a6268;
+        }
+
+    .upload {
+        display: flex;
+        align-items: center;
+    }
+
+        .upload img {
+            margin-left: 10px;
+            border-radius: 6px;
+            max-width: 100px;
+            max-height: 100px;
+        }
+
+    input[type="radio"] {
+        margin-right: 10px;
+    }
+
+    label {
+        margin-right: 20px;
+        font-weight: normal;
+    }
+</style>

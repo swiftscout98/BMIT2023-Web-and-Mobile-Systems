@@ -1,0 +1,136 @@
+﻿@inject DB db;
+@using System.Security.Claims
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="shortcut icon" href="/images/logo.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="/css/pager.css">
+    <link rel="stylesheet" href="/css/app.css" asp-append-version="true">
+    @RenderSection("head", false)
+</head>
+<body>
+    <div class="info">@Html.Raw(TempData["Info"])</div>
+    <div class="info">@Html.Raw(TempData["Success"])</div>
+
+    <!-- Header Section -->
+    <header>
+        <div class="header-container">
+            <h1><a href="/" class="logo">TARUMT Tuition</a></h1>
+            <div class="user-info">
+                @if (User.Identity!.IsAuthenticated)
+                {
+                    var studentId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+                    if (!string.IsNullOrEmpty(studentId))
+                    {
+                        var student = db.Students.FirstOrDefault(s => s.StudentId == studentId);
+                        if (student != null)
+                        {
+                            <img src="@Url.Content("~/Students/" + student.StudentAvatarURL)" alt="User Avatar" class="user-avatar" />
+                            <div class="student-name">Welcome, @student.StudentName!</div>
+                        }
+                    }
+                }
+                else
+                {
+                    <img src="@Url.Content("~/images/photo.jpg")" alt="Default Avatar" class="user-avatar" />
+                    <div class="student-name">Guest</div>
+                }
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <ul class="left-nav">
+            @if (User.Identity!.IsAuthenticated)
+            {
+                <li><a href="/Student/Index">Index</a></li>
+                <li><a href="/Student/ClassReg">Class Registration</a></li>
+                <li><a href="/Student/ClassTimetable">Timetable</a></li>
+                <li><a href="/Student/AttendanceDetails">Attendance Details</a></li>
+            }
+        </ul>
+
+        <div></div>
+
+        <ul class="right-nav">
+            @if (User.Identity!.IsAuthenticated)
+            {
+                <li><a href="/Student/UpdateProfile">Update Profile</a></li>
+                <li><a href="/Student/UpdatePassword">Update Password</a></li>
+                <li><a href="/Auth/Logout">Logout</a></li>
+            }
+            else
+            {
+                <li><a href="/Auth/Login">Login</a></li>
+            }
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <h1>@ViewBag.Title</h1>
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>Developed by <b>TARUMT ATTENDANCE TRACKING SYSTEM</b> &middot; Copyrighted &copy; @DateTime.Today.Year</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="/js/jquery.validate.min.js"></script>
+    <script src="/js/jquery.validate.unobtrusive.min.js"></script>
+    <script src="/js/app.js" asp-append-version="true"></script>
+    @RenderSection("foot", false)
+</body>
+@RenderSection("Scripts", false)
+</html>
+
+<style>
+    .main-nav {
+        display: flex;
+        justify-content: space-between; /* Ensures left and right sections are separated */
+        align-items: center; /* Aligns items vertically in the center */
+        background-color: #f8f8f8; /* Optional: Add background color */
+        padding: 10px 20px; /* Optional: Add padding for spacing */
+        border-bottom: 1px solid #ddd; /* Optional: Add a border to distinguish the nav */
+    }
+
+    .left-nav,
+    .right-nav {
+        list-style: none; /* Removes default list styling */
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 15px; /* Space between list items */
+    }
+
+        .left-nav li,
+        .right-nav li {
+            display: inline-block;
+        }
+
+        .left-nav a,
+        .right-nav a {
+            text-decoration: none; /* Removes underline from links */
+            color: #333; /* Default link color */
+            font-weight: bold; /* Optional: Make links bold */
+            padding: 5px 10px; /* Adds some spacing around links */
+            border-radius: 5px; /* Optional: Adds rounded corners */
+        }
+
+            .left-nav a:hover,
+            .right-nav a:hover {
+                background-color: #007bff; /* Hover background color */
+                color: #fff; /* Hover text color */
+            }
+
+</style>

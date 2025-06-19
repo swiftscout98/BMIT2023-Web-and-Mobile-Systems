@@ -1,0 +1,353 @@
+﻿/* Base Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Header Styles */
+header {
+    background: #4CAF50;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    header .header-container {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    header .logo {
+        font-size: 24px;
+        color: white;
+        text-decoration: none;
+        font-weight: 700;
+    }
+
+    header .user-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    header .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+    }
+
+    header .student-name {
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+/* Navigation Styles */
+.main-nav {
+    background: #333;
+    padding: 10px 50px;
+    display: flex;
+}
+
+    .main-nav ul {
+        display: flex;
+        gap: 15px;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .main-nav a {
+        color: white;
+        text-decoration: none;
+        padding: 10px 20px;
+        display: block;
+        border-radius: 5px;
+        transition: background 0.3s;
+    }
+
+        .main-nav a:hover {
+            background: #555;
+        }
+
+    .main-nav .flex-spacer {
+        flex-grow: 1;
+    }
+
+/* Main Content */
+main {
+    padding: 20px;
+    background-color: #f4f4f4;
+    flex-grow: 1;
+}
+
+    main h1 {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+/* Footer */
+footer {
+    background: #4CAF50;
+    padding: 10px;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+}
+
+/* Table ---------------------------------------------------------------------- */
+
+.table {
+    border-collapse: collapse;
+}
+
+    .table th,
+    .table td {
+        border: 1px solid #333;
+        padding: 5px;
+    }
+
+    .table th {
+        background: #666;
+        color: #fff;
+    }
+
+    .table tr:hover td {
+        background: #ccc;
+    }
+
+.detail th {
+    text-align: left;
+}
+
+.table th a {
+    color: inherit;
+    display: block;
+}
+
+    .table th a.asc::after {
+        content: ' ▴';
+    }
+
+    .table th a.des::after {
+        content: ' ▾';
+    }
+
+.table tr:has(input:checked) td {
+    background: tomato;
+}
+
+.table td:last-child {
+    position: relative;
+}
+
+.table .popup {
+    background: #fff;
+    border: inherit;
+    padding: inherit;
+    position: absolute;
+    z-index: 1;
+    white-space: nowrap;
+    top: 50%;
+    left: 100%;
+    transform: translate(5px, -50%);
+    display: none;
+}
+
+.table img.popup {
+    padding: 0;
+}
+
+.table tr:hover .popup {
+    display: block;
+}
+
+/* Pager ---------------------------------------------------------------------- */
+
+.pagination a,
+.pagination span {
+    background: #666 !important;
+    color: #fff !important;
+    border: 1px solid #000 !important;
+}
+
+    .pagination a:hover,
+    .pagination span:hover {
+        background: #333 !important;
+    }
+
+.pagination .active a,
+.pagination .active span {
+    background: #333 !important;
+}
+
+.pagination .disabled a,
+.pagination .disabled span {
+    background: #ccc !important;
+}
+
+/* Flash Message -------------------------------------------------------------- */
+.info {
+    position: fixed;
+    background: #666;
+    color: #fff;
+    border: 1px solid #333;
+    border-radius: 5px;
+    padding: 10px 20px;
+    max-width: 500px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    top: 200px; /* Changed from 100px to 200px */
+    opacity: 0;
+    z-index: 9999; /* Added to ensure message appears above other elements */
+}
+
+    .info:not(:empty) {
+        animation: fade 5s;
+    }
+
+@keyframes fade {
+    0% {
+        top: -100px;
+        opacity: 0;
+    }
+
+    10% {
+        top: 200px;
+        opacity: 1;
+    }
+    /* Changed from 100px to 200px */
+    90% {
+        top: 200px;
+        opacity: 1;
+    }
+    /* Changed from 100px to 200px */
+    100% {
+        top: -100px;
+        opacity: 0;
+    }
+}
+
+/* Form ----------------------------------------------------------------------- */
+
+label > * {
+    vertical-align: text-top;
+}
+
+.form {
+    display: grid;
+    grid: auto / auto auto auto;
+    gap: 5px;
+    place-content: start;
+    place-items: center start;
+}
+
+    .form > label:not(:has(*)) {
+        background: #ccc;
+        font-weight: bold;
+        padding: 5px;
+        place-self: stretch;
+    }
+
+    .form > section,
+    .validation-summary-valid,
+    .validation-summary-errors {
+        grid-column: 1 / -1;
+    }
+
+        .validation-summary-valid ul,
+        .validation-summary-errors ul {
+            margin: 0;
+        }
+
+.field-validation-error,
+.validation-summary-errors {
+    color: red;
+}
+
+/* Photo Upload --------------------------------------------------------------- */
+
+.upload img {
+    display: block;
+    border: 1px solid #333;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+/* Badge ---------------------------------------------------------------------- */
+
+.badge {
+    display: inline-block;
+    background-color: #666;
+    color: #fff;
+    border: 1px solid #333;
+    border-radius: 3px;
+    min-width: 30px;
+    text-align: center;
+}
+
+/* General Button Styling */
+button.btn {
+    font-weight: bold;
+    padding: 8px 15px;
+    border-radius: 5px;
+    border: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* Primary Button: Take */
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
+
+    .btn-primary:active {
+        background-color: #003f7f;
+        transform: scale(1);
+    }
+
+/* Success Button: Signed */
+.btn-success {
+    background-color: #28a745;
+    color: #fff;
+    cursor: not-allowed; /* Indicates it's not clickable */
+}
+
+    .btn-success:hover {
+        background-color: #28a745; /* No hover effect for disabled buttons */
+        transform: none;
+    }
+
+/* Secondary Button: Not Available */
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+    cursor: not-allowed;
+}
+
+    .btn-secondary:hover {
+        background-color: #6c757d; /* No hover effect for disabled buttons */
+        transform: none;
+    }
+
+/* Disabled Buttons (Optional: Generic styling for disabled buttons) */
+button[disabled] {
+    opacity: 0.7; /* Makes disabled buttons look slightly faded */
+    cursor: not-allowed;
+}

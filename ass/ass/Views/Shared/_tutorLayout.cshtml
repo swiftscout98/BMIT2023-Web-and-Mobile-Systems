@@ -1,0 +1,216 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>@ViewBag.Title</title>
+    <link rel="shortcut icon" href="/images/logo.png">
+	<link href="/css/all.min.css" rel="stylesheet">
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/css/ruang-admin.min.css" rel="stylesheet">
+
+    <!--google material icon-->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search" />
+
+	@RenderSection("head", false)
+</head>
+
+<body id="page-top">
+
+    <div id="wrapper">
+
+	    <!-- Sidebar -->
+        <div class="sideBar">
+
+            <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
+                <a class="sidebar-brand d-flex align-items-center bg-gradient-primary justify-content-center" href="/tutor/dashboard">
+                    <div class="sidebar-brand-icon">
+                        <img src="/images/logo.png">
+                    </div>
+                    <div class="sidebar-brand-text mx-3">Attendance Tracking</div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="@Url.Action("dashBoard", "Tutor" )">
+                        <i class="material-icons">dashboard</i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <hr class="sidebar-divider">
+                <div class="sidebar-heading">
+                    Students
+                </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#studentsCollapse"
+                       aria-expanded="true" aria-controls="studentsCollapse">
+                        <i class="material-icons">aspect_ratio</i>
+                        <span>Manage Students</span>
+                    </a>
+                    <div id="studentsCollapse" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Manage Students</h6>
+                            <a class="collapse-item" href="@Url.Action("viewStudent", "Tutor" )">View Students</a>
+                            <!-- <a class="collapse-item" href="#">Assets Type</a> -->
+                        </div>
+                    </div>
+                </li>
+
+                <hr class="sidebar-divider">
+                <div class="sidebar-heading">
+                    Attendance
+                </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#attendanceCollapse"
+                       aria-expanded="true" aria-controls="attendanceCollapse">
+                        <i class="material-icons">border_color</i>
+                        <span>Manage Attendance</span>
+                    </a>
+                    <div id="attendanceCollapse" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Manage Attendance</h6>
+                            <a class="collapse-item" href="@Url.Action("viewClass","Tutor" )">View Class Attendance</a>
+                            
+                        </div>
+                    </div>
+                </li>
+
+                <hr class="sidebar-divider">
+                <div class="sidebar-heading">
+                    Timetable
+                </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#timetableCollapse"
+                       aria-expanded="true" aria-controls="timetableCollapse">
+                        <i class="material-icons">border_color</i>
+                        <span>Tutor Timetable</span>
+                    </a>
+                    <div id="timetableCollapse" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Tutor Timetable</h6>
+
+                            <a class="collapse-item" href="@Url.Action("tutorTimetable", "Tutor")">View tutorTimetable</a>
+
+                        </div>
+                    </div>
+                </li>
+                <br></br>
+                <div style="padding:5px;"id="google_translate_element"></div>
+        </div>
+
+        <!-- Sidebar -->
+
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+
+        <!------top-navbar----------->
+               <div class="torBar">
+                    <nav class="navbar navbar-expand navbar-light bg-gradient-primary topbar mb-4 static-top">
+                        <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
+                            @* <i class="material-icons text-white" style="transform: rotate(90deg);">signal_cellular_alt</i> *@
+                        </button>
+                        <div class="text-white big" style="margin-left:100px;"></div>
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown no-arrow">
+                                <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    <span class="material-symbols-outlined">
+                                        search
+                                    </span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                     aria-labelledby="searchDropdown">
+                                    <form class="navbar-search">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control bg-light border-1 small" placeholder="What do you want to look for?"
+                                                   aria-label="Search" aria-describedby="basic-addon2" style="border-color: #3f51b5;">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary" type="button">
+                                                    <span class="material-symbols-outlined">
+                                                        search
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                
+                            </li>
+
+
+                            <div class="topbar-divider d-none d-sm-block"></div>
+                            <li class="nav-item dropdown no-arrow">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    <img class="img-profile rounded-circle"
+                                         src="@(string.IsNullOrEmpty(ViewBag.TutorAvatarURL) ? "/images/default-avatar.png" : $"/Tutors/{ViewBag.TutorAvatarURL}")"
+                                         style="max-width: 60px">
+                                    <span class="ml-2 d-none d-lg-inline text-white small">Welcome @ViewBag.TutorName</span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("Profile", "Tutor")">
+                                        <span class="material-icons">person_outline</span>
+                                        Profile
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="@Url.Action("Logout", "Auth")">
+                                        @Html.AntiForgeryToken()
+                                        <span class="material-icons">logout</span>
+                                        Logout
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </nav>
+               </div>
+        <!------top-navbar----------->
+                <main style="margin:20px">
+                    @RenderBody()
+                </main>
+                
+            </div>
+        </div>
+
+    </div>
+
+
+        <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>
+                        &copy @DateTime.Today.Year TARUMT ATTENDANCE TRACKING SYSTEM . All Rights Reserved.
+                        </span>
+                    </div>
+                </div>
+            </footer>
+        <!-- Footer -->
+
+<!-- Scroll to top -->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+   
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/jquery.easing.min.js"></script>
+<script src="/js/ruang-admin.min.js"></script>
+<script src="/js/Chart.min.js"></script>
+<script src="/js/chart-area-demo.js"></script>
+    <script src="script.js"></script>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement(
+                {pageLanguage: 'en'},
+                'google_translate_element'
+            );
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+@RenderSection("foot", false)
+</body>
+</html>

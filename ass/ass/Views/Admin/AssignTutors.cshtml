@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "Admin | Assign Tutors";
+    var subject = ViewBag.Subject;
+    var allTutors = ViewBag.AllTutors;
+    var assignedTutorIds = ViewBag.AssignedTutorIds;
+}
+
+<div class="main-content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Assign Tutors to @subject.SubjectName</h5>
+
+                    <div class="form-group">
+                        <label>Available Tutors</label>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <input type="checkbox" id="selectAll" />
+                                        </th>
+                                        <th>Tutor ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var tutor in allTutors)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox"
+                                                       class="tutor-checkbox"
+                                                       value="@tutor.TutorId"
+                                                @(assignedTutorIds.Contains(tutor.TutorId) ? "checked" : "") />
+                                            </td>
+                                            <td>@tutor.TutorId</td>
+                                            <td>@tutor.TutorName</td>
+                                            <td>@tutor.TutorEmail</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <a asp-action="ViewSubject" class="btn btn-secondary">Back to List</a>
+                        <button onclick="saveAssignments()" class="btn btn-primary">Save Assignments</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section foot {
+    <script>
+         $(document).ready(function() {
+            // Select All functionality
+            $("#selectAll").change(function() {
+                $(".tutor-checkbox").prop('checked', $(this).prop('checked'));
+            });
+        });
+
+        function saveAssignments() {
+            var selectedTutors = [];
+            $('.tutor-checkbox:checked').each(function() {
+                selectedTutors.push($(this).val());
+            });
+
+            $.ajax({
+                url: '/Admin/UpdateTutorAssignments',
+                type: 'POST',
+                data: {
+                    subjectId: '@subject.SubjectId',
+                    tutorIds: selectedTutors
+                },
+                success: function(result) {
+                    if (result.success) {
+                        showToast(result.message, 'success');
+                        setTimeout(() => {
+                            window.location.href = '@Url.Action("ViewSubject", "Admin")';
+                        }, 2000);
+                    } else {
+                        showToast(result.message, 'error');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error updating assignments:', error);
+                    showToast('Error updating assignments. Please try again.', 'error');
+                }
+            });
+        }
+
+        function showFlashMessage(message) {
+            const flashMessage = $('.info');
+            flashMessage.text(message).addClass('visible');
+
+            setTimeout(() => {
+                flashMessage.text('').removeClass('visible');
+            }, 5000);
+        }
+    </script>
+}
